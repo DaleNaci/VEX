@@ -2,7 +2,7 @@
 *
 *
 * Team: 750E
-* Game: Turning Point 
+* Game: Turning Point
 * Header File
 *
 *
@@ -12,12 +12,12 @@
 using namespace vex;
 
 /**************************************************/
-/*Motor Port Declaration Panel*/ 
+/*Motor Port Declaration Panel*/
 
 const int FRONT_RIGHT_PORT = PORT17;
 const int BACK_RIGHT_PORT = PORT10;
 const int FRONT_LEFT_PORT = PORT19;
-const int BACK_LEFT_PORT = PORT8;
+const int BACK_LEFT_PORT = PORT18;
 
 const int ROLLER_PORT = PORT20;
 
@@ -26,7 +26,7 @@ const int LAUNCHER_PORT = PORT2;
 /***************************************************/
 
 /**************************************************/
-/*Initializing Panel*/ 
+/*Initializing Panel*/
 
 brain Brain = brain();
 
