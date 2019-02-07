@@ -92,15 +92,15 @@ int selectAuton() {
     
     Brain.Screen.drawRectangle(160, 150, 140, 50, color::purple);
     
-    Brain.Screen.printAt(80, 35, "Front Flag");
-    Brain.Screen.printAt(230, 35, "Front Plat");
-    Brain.Screen.printAt(380, 35, "Back");
+    Brain.Screen.printAt(31, 35, "Front Flag");
+    Brain.Screen.printAt(183, 35, "Front Plat");
+    Brain.Screen.printAt(360, 35, "Back");
     
-    Brain.Screen.printAt(80, 105, "Front Flag");
-    Brain.Screen.printAt(230, 105, "Front Plat");
-    Brain.Screen.printAt(380, 105, "Back");
+    Brain.Screen.printAt(31, 105, "Front Flag");
+    Brain.Screen.printAt(185, 105, "Front Plat");
+    Brain.Screen.printAt(360, 105, "Back");
     
-    Brain.Screen.printAt(230, 175, "Skills");
+    Brain.Screen.printAt(193, 175, "Skills");
     
     while(true) {
         if(Brain.Screen.pressing()) {
@@ -151,22 +151,24 @@ void ProgrammingSkills( void ) {
 void BlueInsidePlatform( void ){
     shoot(); //shoot high flag
     RollerMotor.spin(directionType::fwd,100,velocityUnits::pct); //turn on roller
-    turn(150.0); //turn left to face cap w ball
+    turn(160.0); //turn left to face cap w ball
     task::sleep(300); //stop for 0.3 seconds to avoid drifting
     driveFor(3.0, 100); //drive for 3 tiles to get ball
     driveFor(0.6, 40); //drive slowly to approach ball
     driveFor(-4.5, 100); //drive back and hit wall to align bot
     driveFor(0.48, 100); //drive slowly forward to avoid hitting wall when turning
     task::sleep(300); //sleep for 0.3 seconds
-    turn(-165.0); //turn right to face flags
-    driveFor(2.55, 100); //drive forwards to hit medium flag
+    turn(-170.0); //turn right to face flags
+    task::sleep(300); //sleep for 0.3 seconds
+    driveFor(2.4, 100); //drive forwards
+    task::sleep(300); //sleep for 0.3 seconds
+    RollerMotor.stop(); //stops roller
     shoot(); //shoot
-    task::sleep(300); //sleep for 0.3 seconds
-    RollerMotor.stop(); //stop roller motor
-    driveFor(-4.23, 100); //drive back to reach platform
-    task::sleep(300); //sleep for 0.3 seconds
-    turn(-152.0); //turn so that back is facing platform
-    driveFor(-5.0, 100); //drive into platform
+    turn(-20.0);
+    driveFor(1.6, 60); //drive slowly into low flag and align w wall
+    driveFor(-5.4, 90); //drive backwards for platform
+    turn(-153.0); //turn so that back is facing platform
+    driveFor(-6.0, 100); //drive into platform
 }
 
 void BlueInsideLowFlag( void ){
@@ -184,7 +186,6 @@ void BlueInsideLowFlag( void ){
     driveFor(2.4, 100); //drive forwards
     task::sleep(300); //sleep for 0.3 seconds
     RollerMotor.stop(); //stops roller
-    turn(20.0);
     shoot(); //shoot
     turn(-20.0);
     driveFor(1.6, 60); //drive slowly into low flag and align w wall
