@@ -129,10 +129,10 @@ void slowDrive(controller::button slowLeft, controller::button slowRight, contro
     }
 
     if(slowUp.pressing()){
-        RightMotorFront.spin(directionType::fwd, 35, velocityUnits::pct);
-        LeftMotorFront.spin(directionType::fwd, 35, velocityUnits::pct);
-        RightMotorBack.spin(directionType::fwd, 35, velocityUnits::pct);
-        LeftMotorBack.spin(directionType::fwd, 35, velocityUnits::pct);
+        RightMotorFront.spin(directionType::fwd, 40, velocityUnits::pct);
+        LeftMotorFront.spin(directionType::fwd, 40, velocityUnits::pct);
+        RightMotorBack.spin(directionType::fwd, 40, velocityUnits::pct);
+        LeftMotorBack.spin(directionType::fwd, 40, velocityUnits::pct);
     }
 }
 
