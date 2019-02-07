@@ -168,7 +168,7 @@ void usercontrol( void ) {
 
         controller::button LAUNCH_BUTTON = Controller1.ButtonR1;
 
-        drive(VERTICAL_AXIS, HORIZONTAL_AXIS);
+        drive(VERTICAL_AXIS, HORIZONTAL_AXIS * .80);
 
         launch(LAUNCH_BUTTON);
 
