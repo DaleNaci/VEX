@@ -17,21 +17,6 @@ using namespace vex;
 //constant for wheel diameter
 const float WHEEL_DIAMETER = 4.125;
 
-//constant for DriverSkills
-const bool DriverSkills = false;
-
-
-/*****RUMBLE THREAD*****/
-void rumbleTimer(void) {
-    task::sleep(20000);
-    Controller1.rumble("-");
-    task::sleep(20000);
-    Controller1.rumble("--");
-    task::sleep(10000);
-    Controller1.rumble("---");
-}
-
-
 void pre_auton( void ) {
 
 }
@@ -90,8 +75,6 @@ int selectAuton() {
     Brain.Screen.drawRectangle(160, 80, 140, 50, color::blue);
     Brain.Screen.drawRectangle(310, 80, 140, 50, color::blue);
 
-    Brain.Screen.drawRectangle(160, 150, 140, 50, color::purple);
-
     Brain.Screen.printAt(31, 35, "Front Flag");
     Brain.Screen.printAt(183, 35, "Front Plat");
     Brain.Screen.printAt(360, 35, "Back");
@@ -99,8 +82,6 @@ int selectAuton() {
     Brain.Screen.printAt(31, 105, "Front Flag");
     Brain.Screen.printAt(185, 105, "Front Plat");
     Brain.Screen.printAt(360, 105, "Back");
-
-    Brain.Screen.printAt(193, 175, "Skills");
 
     while(true) {
         if(Brain.Screen.pressing()) {
@@ -129,22 +110,9 @@ int selectAuton() {
                     return 6;
                 }
             }
-            else if(yPos >= 150 && yPos <= 200){
-                if(xPos >= 160 && xPos <= 300){
-                    return 7;
-                }
-            }
         }
     }
 }
-
-/*****PROGRAMMING SKILLS*****/
-
-void ProgrammingSkills( void ) {
-    shoot();
-    driveFor(3.2, 100);
-}
-
 
 /*****BLUE INSIDE AUTON*****/
 
@@ -318,10 +286,6 @@ void launch(controller::button launchButton){
 
 void usercontrol( void ) {
 
-    if(DriverSkills) {
-        thread rumbleThread = thread(rumbleTimer);
-    }
-
     while (1) {
 
         controller::axis VERTICAL_AXIS = Controller1.Axis3;
@@ -373,9 +337,6 @@ int main() {
             break;
         case 6:
             comp.autonomous( Outside );
-            break;
-        case 7:
-            comp.autonomous( ProgrammingSkills );
             break;
     }
 
