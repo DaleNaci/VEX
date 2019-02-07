@@ -127,7 +127,7 @@ void slowDrive(controller::button slowLeft, controller::button slowRight, contro
         RightMotorBack.spin(directionType::rev, 7, velocityUnits::pct);
         LeftMotorBack.spin(directionType::fwd, 7, velocityUnits::pct);
     }
-
+    // This is used for the first back cap for the current 27-point path
     if(slowUp.pressing()){
         RightMotorFront.spin(directionType::fwd, 40, velocityUnits::pct);
         LeftMotorFront.spin(directionType::fwd, 40, velocityUnits::pct);
