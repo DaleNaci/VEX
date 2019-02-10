@@ -323,21 +323,27 @@ int main() {
     switch(selectAuton()) {
         case 1:
             comp.autonomous( RedInsideLowFlag );
+            Brain.Screen.printAt(360, 130, "Red Low Flag");
             break;
         case 2:
             comp.autonomous( RedInsidePlatform );
+            Brain.Screen.printAt(360, 130, "Red Plat");
             break;
         case 3:
             comp.autonomous( Outside );
+            Brain.Screen.printAt(360, 130, "Outside");
             break;
         case 4:
             comp.autonomous( BlueInsideLowFlag );
+            Brain.Screen.printAt(360, 130, "Blue Low Flag");
             break;
         case 5:
             comp.autonomous( BlueInsidePlatform );
+            Brain.Screen.printAt(360, 130, "Blue Plat");
             break;
         case 6:
             comp.autonomous( Outside );
+            Brain.Screen.printAt(360, 130, "Outside");
             break;
     }
     
