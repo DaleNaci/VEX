@@ -96,10 +96,10 @@ void ProgrammingSkills( void ) {
  *************************************************/
 
 void drive(controller::axis left, controller::axis right){
-    RightMotorFront.spin(directionType::fwd, (left.value() - right.value()), velocityUnits::pct);
-    LeftMotorFront.spin(directionType::fwd, (left.value() + right.value()), velocityUnits::pct);
-    RightMotorBack.spin(directionType::fwd, (left.value() - right.value()), velocityUnits::pct);
-    LeftMotorBack.spin(directionType::fwd, (left.value() + right.value()), velocityUnits::pct);
+    RightMotorFront.spin(directionType::fwd, (left.value() - (0.85 * right.value())), velocityUnits::pct);
+    LeftMotorFront.spin(directionType::fwd, (left.value() + (0.85 * right.value())), velocityUnits::pct);
+    RightMotorBack.spin(directionType::fwd, (left.value() - (0.85 * right.value())), velocityUnits::pct);
+    LeftMotorBack.spin(directionType::fwd, (left.value() + (0.85 * right.value())), velocityUnits::pct);
 }
 
 void intake(controller::button in, controller::button out){
@@ -168,7 +168,7 @@ void usercontrol( void ) {
 
         controller::button LAUNCH_BUTTON = Controller1.ButtonR1;
 
-        drive(VERTICAL_AXIS, HORIZONTAL_AXIS * .80);
+        drive(VERTICAL_AXIS, HORIZONTAL_AXIS);
 
         launch(LAUNCH_BUTTON);
 
