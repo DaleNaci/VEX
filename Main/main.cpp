@@ -129,13 +129,14 @@ void BlueInsidePlatform( void ){
     shoot();
     task::sleep(601);
     driveFor(1.2, 100);
-    RollerMotor.startRotateTo(4000, rotationUnits::deg, 100, velocityUnits::pct);
+    RollerMotor.startRotateFor(4000, rotationUnits::deg, 100, velocityUnits::pct);
     driveFor(1.1, 100);
     task::sleep(200);
     shoot();
     turn(-20.0);
     driveFor(1.6, 60); //drive slowly into low flag and align w wall
     driveFor(-1.0, 50);
+    turn(20.0);
     driveFor(-4.9, 90); //drive backwards for platform
     turn(-153.0); //turn so that back is facing platform
     driveFor(-6.1, 100); //drive into platform
@@ -154,7 +155,7 @@ void BlueInsideLowFlag( void ){
     shoot();
     task::sleep(601);
     driveFor(1.2, 100);
-    RollerMotor.startRotateTo(4000, rotationUnits::deg, 100, velocityUnits::pct);
+    RollerMotor.startRotateFor(4000, rotationUnits::deg, 100, velocityUnits::pct);
     driveFor(1.1, 100);
     task::sleep(200);
     shoot();
@@ -186,16 +187,16 @@ void RedInsidePlatform( void ){
     shoot();
     task::sleep(601);
     driveFor(1.2, 100);
-    RollerMotor.startRotateTo(4000, rotationUnits::deg, 100, velocityUnits::pct);
+    RollerMotor.startRotateFor(4000, rotationUnits::deg, 100, velocityUnits::pct);
     driveFor(1.1, 100);
     task::sleep(200);
     shoot();
-    turn(20.0);
+    turn(32.0);
     driveFor(1.6, 60); //drive slowly into low flag and align w wall
     driveFor(-1.0, 50);
-    driveFor(-5.1, 90); //drive backwards for platform
+    driveFor(-5.0, 90); //drive backwards for platform
     turn(143.0); //turn so that back is facing platform
-    driveFor(-6.1, 100); //drive into platform
+    driveFor(-8.9, 100); //drive into platform
     
 }
 
@@ -208,17 +209,16 @@ void RedInsideLowFlag( void ){
     driveFor(-2.25, 50);
     driveFor(0.34, 100); //drive slowly forward to avoid hitting wall when turning
     task::sleep(300);
-    turn(149.5);
+    turn(152.0);
     shoot();
     task::sleep(601);
-    driveFor(1.2, 100);
-    RollerMotor.startRotateTo(4000, rotationUnits::deg, 100, velocityUnits::pct);
+    driveFor(1.0, 100);
+    RollerMotor.startRotateFor(4000, rotationUnits::deg, 100, velocityUnits::pct);
     driveFor(1.1, 100);
     task::sleep(200);
     shoot();
-    turn(20.0);
+    turn(25.0);
     driveFor(1.6, 60); //drive slowly into low flag and align w wall
-    driveFor(-1.0, 50); //drive a bit away from the low flag
 }
 
 
