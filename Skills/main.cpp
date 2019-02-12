@@ -156,7 +156,7 @@ void usercontrol( void ) {
 
         controller::button SLOW_LEFT = Controller1.ButtonLeft;
         controller::button SLOW_RIGHT = Controller1.ButtonRight;
-        controller::button SLOW_UP = Controller1.ButtonUp;
+        controller::button SLOW_UP = Controller1.ButtonR2;
 
         controller::button INTAKE_IN = Controller1.ButtonL1;
         controller::button INTAKE_OUT = Controller1.ButtonL2;
