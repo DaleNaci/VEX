@@ -17,9 +17,6 @@ using namespace vex;
 //constant for wheel diameter
 const float WHEEL_DIAMETER = 4.125;
 
-//constant for DriverSkills
-const bool DriverSkills = true;
-
 
 /*****RUMBLE THREAD*****/
 void rumbleTimer(void) {
@@ -150,9 +147,7 @@ void launch(controller::button launchButton){
 
 void usercontrol( void ) {
 
-    if(DriverSkills) {
-        thread rumbleThread = thread(rumbleTimer);
-    }
+    thread rumbleThread = thread(rumbleTimer);
 
     while (1) {
 
