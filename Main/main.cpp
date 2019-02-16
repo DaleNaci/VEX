@@ -234,10 +234,10 @@ void RedInsideLowFlag( void ){
  *************************************************/
 
 void drive(controller::axis left, controller::axis right){
-    RightMotorFront.spin(directionType::fwd, (left.value() - right.value()), velocityUnits::pct);
-    LeftMotorFront.spin(directionType::fwd, (left.value() + right.value()), velocityUnits::pct);
-    RightMotorBack.spin(directionType::fwd, (left.value() - right.value()), velocityUnits::pct);
-    LeftMotorBack.spin(directionType::fwd, (left.value() + right.value()), velocityUnits::pct);
+    RightMotorFront.spin(directionType::fwd, (left.value() - right.value()*.85), velocityUnits::pct);
+    LeftMotorFront.spin(directionType::fwd, (left.value() + right.value()*.85), velocityUnits::pct);
+    RightMotorBack.spin(directionType::fwd, (left.value() - right.value()*.85), velocityUnits::pct);
+    LeftMotorBack.spin(directionType::fwd, (left.value() + right.value()*.85), velocityUnits::pct);
 }
 
 void intake(controller::button in, controller::button out){
