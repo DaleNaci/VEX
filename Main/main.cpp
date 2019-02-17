@@ -289,6 +289,18 @@ void launch(controller::button launchButton){
 }
 
 
+void macro(controller::button up) {
+    // NEEDS TESTING
+    // Shoots both flags from back of the field.
+    // Set up: Back up against the wall.
+    if (up.pressing()) {
+        driveFor(.5, .7);
+        shoot();
+        driveFor(.2, .5);
+        shoot();
+    }
+}
+
 /*****OPERATOR CONTROL*****/
 
 void usercontrol( void ) {
@@ -303,11 +315,15 @@ void usercontrol( void ) {
 
         controller::button LAUNCH_BUTTON = Controller1.ButtonR1;
 
+        controller::button MACRO1 = Controller1.ButtonUp;
+
         drive(VERTICAL_AXIS, HORIZONTAL_AXIS);
 
         launch(LAUNCH_BUTTON);
 
         intake(INTAKE_IN, INTAKE_OUT);
+
+        macro(MACRO1);
 
         task::sleep(20);
     }
