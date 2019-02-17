@@ -162,21 +162,43 @@ void BlueInsideLowFlag( void ){
 
 /*****OUTSIDE AUTON*****/
 
-void Outside ( void ){
+void BlueOutside ( void ){
     driveFor(3.0, 65); //drive for 3 tiles to get ball
     RollerMotor.startRotateFor(720, rotationUnits::deg, 100, velocityUnits::pct);
     driveFor(0.6, 65); //drive slowly to approach ball
     driveFor(-0.91, 45);
-    turn(-166.0);
-    driveFor(-0.94, 20);
-    turn(13.0);
+    turn(-150.0);
+    driveFor(-1.2, 20);
+    //turn(13.0);
     shoot();
-    turn(-22.0);
-    driveFor(4.60, 65);
-    task::sleep(200);
+    //turn(-22.0);
+    RollerMotor.startRotateFor(720, rotationUnits::deg, 100, velocityUnits::pct);
+    driveFor(1.1, 65);
+    shoot();
+    driveFor(4.00, 65);
+    /*task::sleep(200);
     turn(25.0);
     RollerMotor.rotateFor(2000, rotationUnits::deg, 100, velocityUnits::pct);
+    shoot();*/
+}
+void RedOutside ( void ){
+    driveFor(3.0, 65); //drive for 3 tiles to get ball
+    RollerMotor.startRotateFor(720, rotationUnits::deg, 100, velocityUnits::pct);
+    driveFor(0.6, 65); //drive slowly to approach ball
+    driveFor(-0.91, 45);
+    turn(150.0);
+    driveFor(-1.2, 20);
+    //turn(13.0);
     shoot();
+    //turn(-22.0);
+    RollerMotor.startRotateFor(720, rotationUnits::deg, 100, velocityUnits::pct);
+    driveFor(1.1, 65);
+    shoot();
+    driveFor(4.00, 65);
+    /*task::sleep(200);
+    turn(25.0);
+    RollerMotor.rotateFor(2000, rotationUnits::deg, 100, velocityUnits::pct);
+    shoot();*/
 }
 
 
@@ -204,7 +226,7 @@ void RedInsidePlatform( void ){
     driveFor(-1.0, 50);
     driveFor(-5.0, 90); //drive backwards for platform
     turn(143.0); //turn so that back is facing platform
-    driveFor(-8.9, 100); //drive into platform
+    driveFor(-8.0, 100); //drive into platform
     
 }
 
@@ -223,7 +245,7 @@ void RedInsideLowFlag( void ){
     driveFor(2.35, 65);
     task::sleep(200);
     shoot();
-    turn(28.0);
+    turn(35.0);
     driveFor(1.6, 75); //drive slowly into low flag and align w wall
 }
 
@@ -240,10 +262,10 @@ void RedInsideLowFlag( void ){
  *************************************************/
 
 void drive(controller::axis left, controller::axis right){
-    RightMotorFront.spin(directionType::fwd, (left.value() - right.value()), velocityUnits::pct);
-    LeftMotorFront.spin(directionType::fwd, (left.value() + right.value()), velocityUnits::pct);
-    RightMotorBack.spin(directionType::fwd, (left.value() - right.value()), velocityUnits::pct);
-    LeftMotorBack.spin(directionType::fwd, (left.value() + right.value()), velocityUnits::pct);
+    RightMotorFront.spin(directionType::fwd, (left.value() - right.value()*.85), velocityUnits::pct);
+    LeftMotorFront.spin(directionType::fwd, (left.value() + right.value()*.85), velocityUnits::pct);
+    RightMotorBack.spin(directionType::fwd, (left.value() - right.value()*.85), velocityUnits::pct);
+    LeftMotorBack.spin(directionType::fwd, (left.value() + right.value()*.85), velocityUnits::pct);
 }
 
 void intake(controller::button in, controller::button out){
@@ -337,7 +359,7 @@ int main() {
             Brain.Screen.printAt(360, 130, "Red Platform");
             break;
         case 3:
-            comp.autonomous( Outside );
+            comp.autonomous( RedOutside );
             Brain.Screen.printAt(360, 130, "Outside");
             break;
         case 4:
@@ -349,7 +371,7 @@ int main() {
             Brain.Screen.printAt(360, 130, "Blue Platform");
             break;
         case 6:
-            comp.autonomous( Outside );
+            comp.autonomous( BlueOutside );
             Brain.Screen.printAt(360, 130, "Outside");
             break;
     }
