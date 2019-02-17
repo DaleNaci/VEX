@@ -77,8 +77,30 @@ void shoot( void ){
 /*****PROGRAMMING SKILLS*****/
 
 void ProgrammingSkills( void ) {
+    driveFor(3.0, 100); //drive for 3 tiles to get ball
+    RollerMotor.startRotateFor(720, rotationUnits::deg, 100, velocityUnits::pct);
+    driveFor(0.6, 65); //drive slowly to approach ball
+    driveFor(-2.25, 100); //drive back and hit wall to align bot
+    task::sleep(200);
+    driveFor(-2.1, 50);
+    driveFor(0.34, 100); //drive slowly forward to avoid hitting wall when turning
+    task::sleep(300);
+    turn(146.0);
     shoot();
-    driveFor(3.2, 100);
+    turn(7.0);
+    task::sleep(601);
+    driveFor(0.98, 100);
+    RollerMotor.startRotateFor(4000, rotationUnits::deg, 100, velocityUnits::pct);
+    turn(-5.0);
+    driveFor(1.1, 100);
+    task::sleep(1000);
+    shoot();
+    turn(25.0);
+    driveFor(1.6, 60); //drive slowly into low flag and align w wall
+    driveFor(-1.0, 50);
+    driveFor(-5.1, 90); //drive backwards for platform
+    turn(143.0); //turn so that back is facing platform
+    driveFor(-8.0, 100); //drive into platform
 }
 
 /*************************************************
@@ -183,6 +205,7 @@ int main() {
     pre_auton();
 
     comp.drivercontrol(usercontrol);
+    comp.autonomous(ProgrammingSkills);
 
     while(1) {
         task::sleep(100);
