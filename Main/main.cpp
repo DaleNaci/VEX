@@ -336,7 +336,9 @@ int main() {
 
     pre_auton();
 
-    switch(selectAuton()) {
+    int auton = selectAuton();
+
+    switch(auton) {
         case 1:
             comp.autonomous( RedInsideLowFlag );
             Brain.Screen.printAt(360, 130, "Red Flag");
@@ -365,6 +367,15 @@ int main() {
 
     Brain.Screen.clearScreen();
 
+    switch(auton) {
+        case 1: Brain.Screen.print("Red Flag");     break;
+        case 2: Brain.Screen.print("Red Plat");     break;
+        case 3: Brain.Screen.print("Red Outside");  break;
+        case 4: Brain.Screen.print("Blue Flag");    break;
+        case 5: Brain.Screen.print("Blue Plat");    break;
+        case 6: Brain.Screen.print("Blue Outside"); break;
+    }
+    
     comp.drivercontrol( usercontrol );
 
     while(1) {
