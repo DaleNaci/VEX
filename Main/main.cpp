@@ -249,6 +249,53 @@ void RedInsideLowFlag( void ){
     driveFor(1.6, 75); //drive slowly into low flag and align w wall
 }
 
+/*****SECRET AUTON*****/
+
+void RedSecretAuton(void){
+    driveFor(2.7, 65); //drive for 3 tiles to get ball
+    RollerMotor.startRotateFor(720, rotationUnits::deg, 100, velocityUnits::pct);
+    driveFor(0.6, 65); //drive slowly to approach ball
+    driveFor(-5.0, 65); //drive back and hit wall to align bot
+    task::sleep(200);
+    driveFor(0.33, 100); //drive slowly forward to avoid hitting wall when turning
+    task::sleep(300);
+    turn(158.0); //turn towards flags
+    task::sleep(200);
+    driveFor(3.7,75);//get low flags
+    task::sleep(200);
+    driveFor(-3.7,75);//go back
+    task::sleep(250);
+    turn(-91.0);//turn towards middle flags
+    shoot();
+    RollerMotor.startRotateFor(2500, rotationUnits::deg, 100, velocityUnits::pct);
+    turn(75.0);//turn back
+    task::sleep(800);
+    RollerMotor.startRotateFor(2500, rotationUnits::deg, 100, velocityUnits::pct)
+    task::sleep(2150);
+    shoot();
+}
+
+void BlueSecretAuton(void){
+    driveFor(2.7, 65); //drive for 3 tiles to get ball
+    RollerMotor.startRotateFor(720, rotationUnits::deg, 100, velocityUnits::pct);
+    driveFor(0.6, 65); //drive slowly to approach ball
+    driveFor(-5.0, 65); //drive back and hit wall to align bot
+    task::sleep(200);
+    driveFor(0.33, 100); //drive slowly forward to avoid hitting wall when turning
+    task::sleep(300);
+    turn(-176.0);//turn towards flags
+    task::sleep(200);
+    driveFor(3.7,75);//get low flag
+    task::sleep(200);
+    driveFor(-3.7,75);//go back
+    task::sleep(250);
+    turn(91.0);//turn towards middle flags
+    shoot();
+    RollerMotor.startRotateFor(2500, rotationUnits::deg, 100, velocityUnits::pct);
+    turn(-75.0);//turn back
+    task::sleep(2150);
+    shoot();
+}
 
 /*************************************************
  *
@@ -340,7 +387,7 @@ int main() {
 
     switch(auton) {
         case 1:
-            comp.autonomous( RedInsideLowFlag );
+            comp.autonomous( RedSecretAuton );
             Brain.Screen.printAt(360, 130, "Red Flag");
             break;
         case 2:
@@ -352,7 +399,7 @@ int main() {
             Brain.Screen.printAt(360, 130, "Outside");
             break;
         case 4:
-            comp.autonomous( BlueInsideLowFlag );
+            comp.autonomous( BlueSecretAuton );
             Brain.Screen.printAt(360, 130, "Blue Flag");
             break;
         case 5:
