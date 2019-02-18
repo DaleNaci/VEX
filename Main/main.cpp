@@ -294,9 +294,9 @@ void macro(controller::button up) {
     // Shoots both flags from back of the field.
     // Set up: Back up against the wall.
     if (up.pressing()) {
-        driveFor(.5, .7);
+        driveFor(.5, 70);
         shoot();
-        driveFor(.2, .5);
+        driveFor(.2, 50);
         shoot();
     }
 }
@@ -375,7 +375,7 @@ int main() {
         case 5: Brain.Screen.print("Blue Plat");    break;
         case 6: Brain.Screen.print("Blue Outside"); break;
     }
-    
+
     comp.drivercontrol( usercontrol );
 
     while(1) {
