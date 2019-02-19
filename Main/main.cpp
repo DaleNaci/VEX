@@ -385,13 +385,57 @@ int main() {
 
     int auton = selectAuton();
 
-    switch(auton) {
-        case 1: comp.autonomous( RedSecretAuton );     break;
-        case 2: comp.autonomous( RedInsidePlatform );  break;
-        case 3: comp.autonomous( RedOutside );         break;
-        case 4: comp.autonomous( BlueSecretAuton );    break;
-        case 5: comp.autonomous( BlueInsidePlatform ); break;
-        case 6: comp.autonomous( BlueOutside );        break;
+    Brain.Screen.clearScreen();
+
+    if (auton == 1) {
+        Brain.Screen.print("Are you sure? - Red Flag");
+        Brain.Screen.drawRectangle(10, 100, 140, 75, color::red);
+        Brain.Screen.printAt(31, 130, "Yes");
+        Brain.Screen.drawRectangle(310, 100, 140, 75, color::red);
+        Brain.Screen.printAt(360, 130, "No");
+        while(true) {
+            if(Brain.Screen.pressing()) {
+                int xPos = Brain.Screen.xPosition();
+                int yPos = Brain.Screen.yPosition();
+
+                if (yPos >= 100 && yPos <= 185 && xPos >= 10 && xPos <= 150) {
+                    comp.autonomous( RedInsideLowFlag );
+                    break;
+                }
+                if (yPos >= 100 && yPos <= 185 && xPos >= 310 && xPos <= 450) {
+                    comp.autonomous( RedSecretAuton );
+                    break;
+                }
+            }
+        }
+    } else if (auton == 2) {
+        Brain.Screen.print("Are you sure? - Blue Flag");
+        Brain.Screen.drawRectangle(10, 10, 140, 75, color::blue);
+        Brain.Screen.printAt(31, 35, "Yes");
+        Brain.Screen.drawRectangle(310, 100, 140, 75, color::blue);
+        Brain.Screen.printAt(360, 130, "No");
+        while(true) {
+            if(Brain.Screen.pressing()) {
+                int xPos = Brain.Screen.xPosition();
+                int yPos = Brain.Screen.yPosition();
+
+                if (yPos >= 10 && yPos <= 85 && xPos >= 10 && xPos <= 150) {
+                    comp.autonomous( BlueInsideLowFlag );
+                    break;
+                }
+                if (yPos >= 10 && yPos <= 85 && xPos >= 310 && xPos <= 450) {
+                    comp.autonomous( BlueSecretAuton );
+                    break;
+                }
+            }
+        }
+    } else {
+        switch(auton) {
+            case 3: comp.autonomous( RedOutside );         break;
+            case 4: comp.autonomous( BlueSecretAuton );    break;
+            case 5: comp.autonomous( BlueInsidePlatform ); break;
+            case 6: comp.autonomous( BlueOutside );        break;
+        }
     }
 
     Brain.Screen.clearScreen();
