@@ -386,30 +386,12 @@ int main() {
     int auton = selectAuton();
 
     switch(auton) {
-        case 1:
-            comp.autonomous( RedSecretAuton );
-            Brain.Screen.printAt(360, 130, "Red Flag");
-            break;
-        case 2:
-            comp.autonomous( RedInsidePlatform );
-            Brain.Screen.printAt(360, 130, "Red Platform");
-            break;
-        case 3:
-            comp.autonomous( RedOutside );
-            Brain.Screen.printAt(360, 130, "Outside");
-            break;
-        case 4:
-            comp.autonomous( BlueSecretAuton );
-            Brain.Screen.printAt(360, 130, "Blue Flag");
-            break;
-        case 5:
-            comp.autonomous( BlueInsidePlatform );
-            Brain.Screen.printAt(360, 130, "Blue Platform");
-            break;
-        case 6:
-            comp.autonomous( BlueOutside );
-            Brain.Screen.printAt(360, 130, "Outside");
-            break;
+        case 1: comp.autonomous( RedSecretAuton );     break;
+        case 2: comp.autonomous( RedInsidePlatform );  break;
+        case 3: comp.autonomous( RedOutside );         break;
+        case 4: comp.autonomous( BlueSecretAuton );    break;
+        case 5: comp.autonomous( BlueInsidePlatform ); break;
+        case 6: comp.autonomous( BlueOutside );        break;
     }
 
     Brain.Screen.clearScreen();
