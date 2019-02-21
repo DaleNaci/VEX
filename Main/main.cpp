@@ -76,11 +76,11 @@ int selectAuton() {
     Brain.Screen.drawRectangle(310, 100, 140, 75, color::blue);
     
     Brain.Screen.printAt(31, 35, "Front Flag");
-    Brain.Screen.printAt(183, 35, "Front Plat");
+    Brain.Screen.printAt(183, 35, "Back Plat");
     Brain.Screen.printAt(360, 35, "Back");
     
     Brain.Screen.printAt(31, 130, "Front Flag");
-    Brain.Screen.printAt(185, 130, "Front Plat");
+    Brain.Screen.printAt(185, 130, "Back Plat");
     Brain.Screen.printAt(360, 130, "Back");
     
     while(true) {
@@ -148,7 +148,7 @@ void BlueInsideLowFlag( void ){
     task::sleep(200);
     driveFor(0.48, 100); //drive slowly forward to avoid hitting wall when turning
     task::sleep(300);
-    turn(-168.0);
+    turn(-164.0);
     shoot();
     task::sleep(601);
     RollerMotor.startRotateFor(4000, rotationUnits::deg, 100, velocityUnits::pct);
@@ -168,12 +168,12 @@ void BlueOutsidePlat ( void ){
     driveFor(0.66, 65); //drive slowly to approach ball
     task::sleep(300);
     driveFor(-0.94, 65);
-    turn(-150.0);
+    turn(-140.0);
     task::sleep(300);
     shoot();
     turn(-45.0);
     task::sleep(300);
-    driveFor(4.5, 65);
+    driveFor(3.7, 65);
 }
 
 void RedOutsidePlat ( void ){
@@ -182,12 +182,12 @@ void RedOutsidePlat ( void ){
     driveFor(0.66, 65); //drive slowly to approach ball
     task::sleep(300);
     driveFor(-0.94, 65);
-    turn(165.0);
+    turn(144.0);
     task::sleep(300);
     shoot();
     turn(45.0);
     task::sleep(300);
-    driveFor(4.5, 65);
+    driveFor(3.7, 65);
 }
 
 void BlueOutside( void ){
@@ -196,7 +196,7 @@ void BlueOutside( void ){
     driveFor(0.66, 65); //drive slowly to approach ball
     task::sleep(300);
     driveFor(-0.94, 65);
-    turn(-150.0);
+    turn(-140.0);
     task::sleep(300);
     shoot();
 }
@@ -207,7 +207,7 @@ void RedOutside( void ){
     driveFor(0.66, 65); //drive slowly to approach ball
     task::sleep(300);
     driveFor(-0.94, 65);
-    turn(165.0);
+    turn(144.0);
     task::sleep(300);
     shoot();
 }
@@ -252,6 +252,7 @@ void RedInsideLowFlag( void ){
     shoot();
     task::sleep(601);
     RollerMotor.startRotateFor(4000, rotationUnits::deg, 100, velocityUnits::pct);
+    task::sleep(2000);
     driveFor(2.35, 65);
     task::sleep(200);
     shoot();
@@ -291,20 +292,21 @@ void BlueSecretAuton(void){
     driveFor(0.6, 65); //drive slowly to approach ball
     driveFor(-5.0, 65); //drive back and hit wall to align bot
     task::sleep(200);
-    driveFor(0.33, 100); //drive slowly forward to avoid hitting wall when turning
+    driveFor(0.46, 100); //drive slowly forward to avoid hitting wall when turning
     task::sleep(300);
-    turn(-176.0);//turn towards flags
+    turn(-170.0);//turn towards flags
     task::sleep(200);
     driveFor(3.7,75);//get low flag
     task::sleep(200);
     driveFor(-3.7,75);//go back
     task::sleep(250);
-    turn(91.0);//turn towards middle flags
+    turn(85.0);//turn towards middle flags
     shoot();
     RollerMotor.startRotateFor(2500, rotationUnits::deg, 100, velocityUnits::pct);
-    turn(-75.0);//turn back
+    turn(-80.0);//turn back
     task::sleep(2150);
     shoot();
+    turn(85.0);
 }
 
 /*************************************************
@@ -397,6 +399,8 @@ int main() {
     
     Brain.Screen.clearScreen();
     
+    task::sleep(1000);
+    
     if (auton == 1) {
         Brain.Screen.print("Are you sure? - Red Flag");
         Brain.Screen.drawRectangle(10, 100, 140, 75, color::red);
@@ -419,7 +423,7 @@ int main() {
             }
         }
     }
-    else if (auton == 4) {
+    if (auton == 4) {
         Brain.Screen.print("Are you sure? - Blue Flag");
         Brain.Screen.drawRectangle(10, 100, 140, 75, color::blue);
         Brain.Screen.printAt(31, 130, "Yes");
@@ -430,56 +434,12 @@ int main() {
                 int xPos = Brain.Screen.xPosition();
                 int yPos = Brain.Screen.yPosition();
                 
-                if (yPos >= 10 && yPos <= 85 && xPos >= 10 && xPos <= 150) {
+                if (yPos >= 100 && yPos <= 185 && xPos >= 10 && xPos <= 150) {
                     comp.autonomous( BlueInsideLowFlag );
                     break;
                 }
-                if (yPos >= 10 && yPos <= 85 && xPos >= 310 && xPos <= 450) {
+                if (yPos >= 100 && yPos <= 185 && xPos >= 310 && xPos <= 450) {
                     comp.autonomous( BlueSecretAuton );
-                    break;
-                }
-            }
-        }
-    }
-    else if (auton == 3){
-        Brain.Screen.print("Platform or No? - Red Flag");
-        Brain.Screen.drawRectangle(10, 100, 140, 75, color::red);
-        Brain.Screen.printAt(31, 130, "Platform");
-        Brain.Screen.drawRectangle(310, 100, 140, 75, color::red);
-        Brain.Screen.printAt(360, 130, "No Platform");
-        while(true) {
-            if(Brain.Screen.pressing()) {
-                int xPos = Brain.Screen.xPosition();
-                int yPos = Brain.Screen.yPosition();
-                
-                if (yPos >= 10 && yPos <= 85 && xPos >= 10 && xPos <= 150) {
-                    comp.autonomous( RedOutsidePlat );
-                    break;
-                }
-                if (yPos >= 10 && yPos <= 85 && xPos >= 310 && xPos <= 450) {
-                    comp.autonomous( RedOutside );
-                    break;
-                }
-            }
-        }
-    }
-    else if (auton == 6){
-        Brain.Screen.print("Platform or No? - Blue Flag");
-        Brain.Screen.drawRectangle(10, 100, 140, 75, color::red);
-        Brain.Screen.printAt(31, 130, "Platform");
-        Brain.Screen.drawRectangle(310, 100, 140, 75, color::red);
-        Brain.Screen.printAt(360, 130, "No Platform");
-        while(true) {
-            if(Brain.Screen.pressing()) {
-                int xPos = Brain.Screen.xPosition();
-                int yPos = Brain.Screen.yPosition();
-                
-                if (yPos >= 10 && yPos <= 85 && xPos >= 10 && xPos <= 150) {
-                    comp.autonomous( BlueOutsidePlat );
-                    break;
-                }
-                if (yPos >= 10 && yPos <= 85 && xPos >= 310 && xPos <= 450) {
-                    comp.autonomous( BlueOutside );
                     break;
                 }
             }
@@ -487,10 +447,10 @@ int main() {
     }
     else {
         switch(auton) {
-            case 3: comp.autonomous( RedOutside );         break;
-            case 2: comp.autonomous( RedInsidePlatform );  break;
-            case 5: comp.autonomous( BlueInsidePlatform ); break;
-            case 6: comp.autonomous( BlueOutside );        break;
+            case 2: comp.autonomous( RedOutsidePlat );         break;
+            case 3: comp.autonomous( RedOutside );  break;
+            case 5: comp.autonomous( BlueOutsidePlat ); break;
+            case 6: comp.autonomous( BlueOutside );break;
         }
     }
     
@@ -498,11 +458,11 @@ int main() {
     
     switch(auton) {
         case 1: Brain.Screen.print("Red Flag");     break;
-        case 2: Brain.Screen.print("Red Plat");     break;
-        case 3: Brain.Screen.print("Red Outside");  break;
+        case 2: Brain.Screen.print("Red Outside Plat");     break;
+        case 3: Brain.Screen.print("Red Outside No Plat");  break;
         case 4: Brain.Screen.print("Blue Flag");    break;
-        case 5: Brain.Screen.print("Blue Plat");    break;
-        case 6: Brain.Screen.print("Blue Outside"); break;
+        case 5: Brain.Screen.print("Blue Outside Plat");    break;
+        case 6: Brain.Screen.print("Blue Outside No Plat"); break;
     }
     
     comp.drivercontrol( usercontrol );
