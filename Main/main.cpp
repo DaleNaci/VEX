@@ -18,7 +18,7 @@ using namespace vex;
 const float WHEEL_DIAMETER = 4.125;
 
 void pre_auton( void ) {
-    
+
 }
 
 
@@ -38,7 +38,7 @@ void driveFor( float tiles , int speed ){
     float circum =  3.141592653589 * WHEEL_DIAMETER;
     float rotations = length / circum;
     float degrees = 360 * rotations;
-    
+
     RightMotorFront.startRotateFor(degrees, rotationUnits::deg, speed, velocityUnits::pct);
     LeftMotorFront.startRotateFor(degrees, rotationUnits::deg, speed, velocityUnits::pct);
     RightMotorBack.startRotateFor(degrees, rotationUnits::deg, speed, velocityUnits::pct);
@@ -50,7 +50,7 @@ void turn( float degrees ){
     const float TURNING_DIAMETER = 17.5;
     float turningRatio = TURNING_DIAMETER / WHEEL_DIAMETER;
     int turnSpeed = 45;
-    
+
     RightMotorFront.startRotateFor(degrees * turningRatio / 2, rotationUnits::deg, turnSpeed, velocityUnits::pct);
     LeftMotorFront.startRotateFor(-degrees * turningRatio / 2, rotationUnits::deg, turnSpeed, velocityUnits::pct);
     RightMotorBack.startRotateFor(degrees * turningRatio / 2, rotationUnits::deg, turnSpeed, velocityUnits::pct);
@@ -66,28 +66,28 @@ void shoot( void ){
 
 int selectAuton() {
     Brain.Screen.clearScreen();
-    
+
     Brain.Screen.drawRectangle(10, 10, 140, 75, color::red);
     Brain.Screen.drawRectangle(160, 10, 140, 75, color::red);
     Brain.Screen.drawRectangle(310, 10, 140, 75, color::red);
-    
+
     Brain.Screen.drawRectangle(10, 100, 140, 75, color::blue);
     Brain.Screen.drawRectangle(160, 100, 140, 75, color::blue);
     Brain.Screen.drawRectangle(310, 100, 140, 75, color::blue);
-    
+
     Brain.Screen.printAt(31, 35, "Front Flag");
     Brain.Screen.printAt(183, 35, "Back Plat");
     Brain.Screen.printAt(360, 35, "Back");
-    
+
     Brain.Screen.printAt(31, 130, "Front Flag");
     Brain.Screen.printAt(185, 130, "Back Plat");
     Brain.Screen.printAt(360, 130, "Back");
-    
+
     while(true) {
         if(Brain.Screen.pressing()) {
             int xPos = Brain.Screen.xPosition();
             int yPos = Brain.Screen.yPosition();
-            
+
             if(yPos >= 10 && yPos <= 85) {
                 if(xPos >= 10 && xPos <= 150) {
                     return 1;
@@ -237,7 +237,7 @@ void RedInsidePlatform( void ){
     driveFor(-5.0, 90); //drive backwards for platform
     turn(143.0); //turn so that back is facing platform
     driveFor(-8.0, 100); //drive into platform
-    
+
 }
 
 void RedInsideLowFlag( void ){
@@ -363,27 +363,27 @@ void macro(controller::button up) {
 /*****OPERATOR CONTROL*****/
 
 void usercontrol( void ) {
-    
+
     while (1) {
-        
+
         controller::axis VERTICAL_AXIS = Controller1.Axis3;
         controller::axis HORIZONTAL_AXIS = Controller1.Axis1;
-        
+
         controller::button INTAKE_IN = Controller1.ButtonL1;
         controller::button INTAKE_OUT = Controller1.ButtonL2;
-        
+
         controller::button LAUNCH_BUTTON = Controller1.ButtonR1;
-        
+
         controller::button MACRO1 = Controller1.ButtonUp;
-        
+
         drive(VERTICAL_AXIS, HORIZONTAL_AXIS);
-        
+
         launch(LAUNCH_BUTTON);
-        
+
         intake(INTAKE_IN, INTAKE_OUT);
-        
+
         macro(MACRO1);
-        
+
         task::sleep(20);
     }
 }
@@ -392,15 +392,15 @@ void usercontrol( void ) {
 /*****MAIN METHOD*****/
 
 int main() {
-    
+
     pre_auton();
-    
+
     int auton = selectAuton();
-    
+
     Brain.Screen.clearScreen();
-    
+
     task::sleep(1000);
-    
+
     if (auton == 1) {
         Brain.Screen.print("Are you sure? - Red Flag");
         Brain.Screen.drawRectangle(10, 100, 140, 75, color::red);
@@ -411,7 +411,7 @@ int main() {
             if(Brain.Screen.pressing()) {
                 int xPos = Brain.Screen.xPosition();
                 int yPos = Brain.Screen.yPosition();
-                
+
                 if (yPos >= 100 && yPos <= 185 && xPos >= 10 && xPos <= 150) {
                     comp.autonomous( RedInsideLowFlag );
                     break;
@@ -433,7 +433,7 @@ int main() {
             if(Brain.Screen.pressing()) {
                 int xPos = Brain.Screen.xPosition();
                 int yPos = Brain.Screen.yPosition();
-                
+
                 if (yPos >= 100 && yPos <= 185 && xPos >= 10 && xPos <= 150) {
                     comp.autonomous( BlueInsideLowFlag );
                     break;
@@ -447,26 +447,26 @@ int main() {
     }
     else {
         switch(auton) {
-            case 2: comp.autonomous( RedOutsidePlat );         break;
-            case 3: comp.autonomous( RedOutside );  break;
+            case 2: comp.autonomous( RedOutsidePlat );  break;
+            case 3: comp.autonomous( RedOutside );      break;
             case 5: comp.autonomous( BlueOutsidePlat ); break;
-            case 6: comp.autonomous( BlueOutside );break;
+            case 6: comp.autonomous( BlueOutside );     break;
         }
     }
-    
+
     Brain.Screen.clearScreen();
-    
+
     switch(auton) {
-        case 1: Brain.Screen.print("Red Flag");     break;
+        case 1: Brain.Screen.print("Red Flag");             break;
         case 2: Brain.Screen.print("Red Outside Plat");     break;
         case 3: Brain.Screen.print("Red Outside No Plat");  break;
-        case 4: Brain.Screen.print("Blue Flag");    break;
+        case 4: Brain.Screen.print("Blue Flag");            break;
         case 5: Brain.Screen.print("Blue Outside Plat");    break;
         case 6: Brain.Screen.print("Blue Outside No Plat"); break;
     }
-    
+
     comp.drivercontrol( usercontrol );
-    
+
     while(1) {
         task::sleep(100);
     }
