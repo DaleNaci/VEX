@@ -154,9 +154,11 @@ void BlueInsideLowFlag( void ){
     RollerMotor.startRotateFor(4000, rotationUnits::deg, 100, velocityUnits::pct);
     driveFor(2.35, 65);
     task::sleep(200);
+    RollerMotor.startRotateFor(-600, rotationUnits::deg,100,velocityUnits::pct);
     shoot();
     turn(-20.0);
     driveFor(1.6, 75); //drive slowly into low flag and align w wall
+    driveFor(-0.4,75);
 }
 
 
@@ -170,7 +172,7 @@ void BlueOutsidePlat ( void ){
     turn(-120.0);
     task::sleep(300);
     driveFor(1.7,65);
-    RollerMotor.startRotateFor(1500,rotationUnits::deg, 1000, velocityUnits::pct);
+    RollerMotor.startRotateFor(1300,rotationUnits::deg, 1000, velocityUnits::pct);
     driveFor(-1.6, 65);
     //shoot();
     turn(-80.0);
@@ -186,7 +188,7 @@ void RedOutsidePlat ( void ){
     turn(120.0);
     task::sleep(300);
     driveFor(1.7,65);
-    RollerMotor.startRotateFor(750,rotationUnits::deg, 1000, velocityUnits::pct);
+    RollerMotor.startRotateFor(1300,rotationUnits::deg, 1000, velocityUnits::pct);
     driveFor(-1.2, 65);
     //shoot();
     turn(75.0);
@@ -261,9 +263,11 @@ void RedInsideLowFlag( void ){
     task::sleep(2000);
     driveFor(2.35, 65);
     task::sleep(200);
+    RollerMotor.startRotateFor(-600, rotationUnits::deg,100,velocityUnits::pct);
     shoot();
     turn(35.0);
     driveFor(1.6, 75); //drive slowly into low flag and align w wall
+    driveFor(-0.4,75);
 }
 
 /*****SECRET AUTON*****/
