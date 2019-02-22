@@ -163,53 +163,59 @@ void BlueInsideLowFlag( void ){
 /*****OUTSIDE AUTON*****/
 
 void BlueOutsidePlat ( void ){
-    driveFor(3.0, 65); //drive for 3 tiles to get ball
-    RollerMotor.startRotateFor(720, rotationUnits::deg, 100, velocityUnits::pct);
-    driveFor(0.66, 65); //drive slowly to approach ball
+    RollerMotor.startRotateFor(-3500, rotationUnits::deg, 100, velocityUnits::pct);
+    driveFor(3.8, 65); //drive to flip cap
     task::sleep(300);
-    driveFor(-0.94, 65);
-    turn(-140.0);
+    driveFor(-1.7, 65);
+    turn(-120.0);
     task::sleep(300);
-    shoot();
-    turn(-45.0);
+    driveFor(1.7,65);
+    RollerMotor.startRotateFor(1500,rotationUnits::deg, 1000, velocityUnits::pct);
+    driveFor(-1.6, 65);
+    //shoot();
+    turn(-80.0);
     task::sleep(300);
-    driveFor(3.7, 65);
+    driveFor(4.3, 65);
 }
 
 void RedOutsidePlat ( void ){
-    driveFor(3.0, 65); //drive for 3 tiles to get ball
-    RollerMotor.startRotateFor(720, rotationUnits::deg, 100, velocityUnits::pct);
-    driveFor(0.66, 65); //drive slowly to approach ball
+    RollerMotor.startRotateFor(-3500, rotationUnits::deg, 100, velocityUnits::pct);
+    driveFor(3.9, 65); //drive to flip cap
     task::sleep(300);
-    driveFor(-0.94, 65);
-    turn(144.0);
+    driveFor(-1.8, 65);
+    turn(120.0);
     task::sleep(300);
-    shoot();
-    turn(45.0);
+    driveFor(1.7,65);
+    RollerMotor.startRotateFor(750,rotationUnits::deg, 1000, velocityUnits::pct);
+    driveFor(-1.2, 65);
+    //shoot();
+    turn(75.0);
     task::sleep(300);
-    driveFor(3.7, 65);
+    driveFor(4.4, 65);
 }
 
 void BlueOutside( void ){
-    driveFor(3.0, 65); //drive for 3 tiles to get ball
-    RollerMotor.startRotateFor(720, rotationUnits::deg, 100, velocityUnits::pct);
-    driveFor(0.66, 65); //drive slowly to approach ball
+    RollerMotor.startRotateFor(-3500, rotationUnits::deg, 100, velocityUnits::pct);
+    driveFor(3.8, 65); //drive to flip cap
     task::sleep(300);
-    driveFor(-0.94, 65);
-    turn(-140.0);
+    driveFor(-1.7, 65);
+    turn(-120.0);
     task::sleep(300);
-    shoot();
+    driveFor(1.7,65);
+    RollerMotor.startRotateFor(1500,rotationUnits::deg, 1000, velocityUnits::pct);
+    driveFor(-1.6, 65);
 }
 
 void RedOutside( void ){
-    driveFor(3.0, 65); //drive for 3 tiles to get ball
-    RollerMotor.startRotateFor(720, rotationUnits::deg, 100, velocityUnits::pct);
-    driveFor(0.66, 65); //drive slowly to approach ball
+    RollerMotor.startRotateFor(-3500, rotationUnits::deg, 100, velocityUnits::pct);
+    driveFor(3.9, 65); //drive to flip cap
     task::sleep(300);
-    driveFor(-0.94, 65);
-    turn(144.0);
+    driveFor(-1.8, 65);
+    turn(120.0);
     task::sleep(300);
-    shoot();
+    driveFor(1.7,65);
+    RollerMotor.startRotateFor(750,rotationUnits::deg, 1000, velocityUnits::pct);
+    driveFor(-1.2, 65);
 }
 
 /*****RED INSIDE AUTON*****/
@@ -347,6 +353,19 @@ void launch(controller::button launchButton){
     }
 }
 
+
+void macro(controller::button up) {
+    // NEEDS TESTING
+    // Shoots both flags from back of the field.
+    // Set up: Back up against the wall.
+    if (up.pressing()) {
+        driveFor(.5, 70);
+        shoot();
+        driveFor(.2, 50);
+        shoot();
+    }
+}
+
 /*****OPERATOR CONTROL*****/
 
 void usercontrol( void ) {
@@ -361,11 +380,15 @@ void usercontrol( void ) {
 
         controller::button LAUNCH_BUTTON = Controller1.ButtonR1;
 
+        controller::button MACRO1 = Controller1.ButtonUp;
+
         drive(VERTICAL_AXIS, HORIZONTAL_AXIS);
 
         launch(LAUNCH_BUTTON);
 
         intake(INTAKE_IN, INTAKE_OUT);
+
+        macro(MACRO1);
 
         task::sleep(20);
     }
@@ -430,20 +453,20 @@ int main() {
     }
     else {
         switch(auton) {
-            case 2: comp.autonomous( RedOutsidePlat );  break;
-            case 3: comp.autonomous( RedOutside );      break;
+            case 2: comp.autonomous( RedOutsidePlat );         break;
+            case 3: comp.autonomous( RedOutside );  break;
             case 5: comp.autonomous( BlueOutsidePlat ); break;
-            case 6: comp.autonomous( BlueOutside );     break;
+            case 6: comp.autonomous( BlueOutside );break;
         }
     }
 
     Brain.Screen.clearScreen();
 
     switch(auton) {
-        case 1: Brain.Screen.print("Red Flag");             break;
+        case 1: Brain.Screen.print("Red Flag");     break;
         case 2: Brain.Screen.print("Red Outside Plat");     break;
         case 3: Brain.Screen.print("Red Outside No Plat");  break;
-        case 4: Brain.Screen.print("Blue Flag");            break;
+        case 4: Brain.Screen.print("Blue Flag");    break;
         case 5: Brain.Screen.print("Blue Outside Plat");    break;
         case 6: Brain.Screen.print("Blue Outside No Plat"); break;
     }
