@@ -19,7 +19,7 @@ const float WHEEL_DIAMETER = 4.125;
 
 //pre_auton
 void pre_auton( void ) {
-    
+
 }
 
 
@@ -40,7 +40,7 @@ void driveFor( float tiles , int speed ){
     float circum =  3.141592653589 * WHEEL_DIAMETER;
     float rotations = length / circum;
     float degrees = 360 * rotations;
-    
+
     RightMotorFront.startRotateFor(degrees, rotationUnits::deg, speed, velocityUnits::pct);
     LeftMotorFront.startRotateFor(degrees, rotationUnits::deg, speed, velocityUnits::pct);
     RightMotorBack.startRotateFor(degrees, rotationUnits::deg, speed, velocityUnits::pct);
@@ -53,7 +53,7 @@ void turn( float degrees ){
     const float TURNING_DIAMETER = 17.5;
     float turningRatio = TURNING_DIAMETER / WHEEL_DIAMETER;
     int turnSpeed = 45;
-    
+
     RightMotorFront.startRotateFor(degrees * turningRatio / 2, rotationUnits::deg, turnSpeed, velocityUnits::pct);
     LeftMotorFront.startRotateFor(-degrees * turningRatio / 2, rotationUnits::deg, turnSpeed, velocityUnits::pct);
     RightMotorBack.startRotateFor(degrees * turningRatio / 2, rotationUnits::deg, turnSpeed, velocityUnits::pct);
@@ -70,34 +70,34 @@ void shoot( void ){
 
 int selectAuton() {
     Brain.Screen.clearScreen();
-    
+
     //draws 6 rectangles for options for auton
-    
+
     Brain.Screen.drawRectangle(10, 10, 140, 75, color::red);
     Brain.Screen.drawRectangle(160, 10, 140, 75, color::red);
     Brain.Screen.drawRectangle(310, 10, 140, 75, color::red);
-    
+
     Brain.Screen.drawRectangle(10, 100, 140, 75, color::blue);
     Brain.Screen.drawRectangle(160, 100, 140, 75, color::blue);
     Brain.Screen.drawRectangle(310, 100, 140, 75, color::blue);
-    
+
     //labels options
-    
+
     Brain.Screen.printAt(31, 35, "Front Flag");
     Brain.Screen.printAt(183, 35, "Back Plat");
     Brain.Screen.printAt(360, 35, "Back");
-    
+
     Brain.Screen.printAt(31, 130, "Front Flag");
     Brain.Screen.printAt(185, 130, "Back Plat");
     Brain.Screen.printAt(360, 130, "Back");
-    
+
     //takes user input and returns a number from 1-6 corresponding to what auton is selected
-    
+
     while(true) {
         if(Brain.Screen.pressing()) {
             int xPos = Brain.Screen.xPosition();
             int yPos = Brain.Screen.yPosition();
-            
+
             if(yPos >= 10 && yPos <= 85) {
                 if(xPos >= 10 && xPos <= 150) {
                     return 1;
@@ -255,7 +255,7 @@ void RedInsidePlatform( void ){
     driveFor(-5.0, 90); //drive backwards for platform
     turn(143.0); //turn so that back is facing platform
     driveFor(-8.0, 100); //drive into platform
-    
+
 }
 
 void RedInsideLowFlag( void ){
@@ -278,6 +278,14 @@ void RedInsideLowFlag( void ){
     turn(35.0);
     driveFor(1.6, 75); //drive slowly into low flag and align w wall
     driveFor(-0.4,75);
+    // This is where Dale copied and pasted from prog skills - be prepped to delete everything below
+    turn(-45.0, 50);
+    driveFor(-1.61, 65);
+    turn(-150.0, 35);
+    driveFor(-0.6, 35);
+    RollerMotor.spin(directionType::rev, 100, velocityUnits::pct);
+    driveFor(2.5, 65);
+    RollerMotor.stop();
 }
 
 /*****SECRET AUTON*****/
@@ -374,25 +382,25 @@ void launch(controller::button launchButton){
 /*****OPERATOR CONTROL*****/
 
 void usercontrol( void ) {
-    
+
     while (1) {
-        
+
         //declaration for buttons used on operator control
-        
+
         controller::axis VERTICAL_AXIS = Controller1.Axis3;
         controller::axis HORIZONTAL_AXIS = Controller1.Axis1;
-        
+
         controller::button INTAKE_IN = Controller1.ButtonL1;
         controller::button INTAKE_OUT = Controller1.ButtonL2;
-        
+
         controller::button LAUNCH_BUTTON = Controller1.ButtonR1;
-        
+
         drive(VERTICAL_AXIS, HORIZONTAL_AXIS);
-        
+
         launch(LAUNCH_BUTTON);
-        
+
         intake(INTAKE_IN, INTAKE_OUT);
-        
+
         task::sleep(20);
     }
 }
@@ -401,16 +409,16 @@ void usercontrol( void ) {
 /*****MAIN METHOD*****/
 
 int main() {
-    
+
     pre_auton();
-    
+
     //returns selected auton in int
     int auton = selectAuton();
-    
+
     Brain.Screen.clearScreen();
-    
+
     task::sleep(1000);
-    
+
     //if red flag is selected, ask user for option of secret auton
     if (auton == 1) {
         Brain.Screen.print("Are you sure? - Red Flag");
@@ -422,7 +430,7 @@ int main() {
             if(Brain.Screen.pressing()) {
                 int xPos = Brain.Screen.xPosition();
                 int yPos = Brain.Screen.yPosition();
-                
+
                 if (yPos >= 100 && yPos <= 185 && xPos >= 10 && xPos <= 150) {
                     comp.autonomous( RedInsideLowFlag );
                     break;
@@ -445,7 +453,7 @@ int main() {
             if(Brain.Screen.pressing()) {
                 int xPos = Brain.Screen.xPosition();
                 int yPos = Brain.Screen.yPosition();
-                
+
                 if (yPos >= 100 && yPos <= 185 && xPos >= 10 && xPos <= 150) {
                     comp.autonomous( BlueInsideLowFlag );
                     break;
@@ -466,9 +474,9 @@ int main() {
             case 6: comp.autonomous( BlueOutside );break;
         }
     }
-    
+
     Brain.Screen.clearScreen();
-    
+
     //switch auton to print auton title on screen
     switch(auton) {
         case 1: Brain.Screen.print("Red Flag");     break;
@@ -478,9 +486,9 @@ int main() {
         case 5: Brain.Screen.print("Blue Outside Plat");    break;
         case 6: Brain.Screen.print("Blue Outside No Plat"); break;
     }
-    
+
     comp.drivercontrol( usercontrol );
-    
+
     while(1) {
         task::sleep(100);
     }
