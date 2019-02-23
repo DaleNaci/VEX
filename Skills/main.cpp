@@ -33,7 +33,7 @@ void rumbleTimer(void) {
 
 
 void pre_auton( void ) {
-    
+
 }
 
 
@@ -53,7 +53,7 @@ void driveFor( float tiles , int speed ){
     float circum =  3.141592653589 * WHEEL_DIAMETER;
     float rotations = length / circum;
     float degrees = 360 * rotations;
-    
+
     RightMotorFront.startRotateFor(degrees, rotationUnits::deg, speed, velocityUnits::pct);
     LeftMotorFront.startRotateFor(degrees, rotationUnits::deg, speed, velocityUnits::pct);
     RightMotorBack.startRotateFor(degrees, rotationUnits::deg, speed, velocityUnits::pct);
@@ -64,7 +64,7 @@ void driveFor( float tiles , int speed ){
 void turn( float degrees , int turnSpeed){
     const float TURNING_DIAMETER = 17.5;
     float turningRatio = TURNING_DIAMETER / WHEEL_DIAMETER;
-    
+
     RightMotorFront.startRotateFor(degrees * turningRatio / 2, rotationUnits::deg, turnSpeed, velocityUnits::pct);
     LeftMotorFront.startRotateFor(-degrees * turningRatio / 2, rotationUnits::deg, turnSpeed, velocityUnits::pct);
     RightMotorBack.startRotateFor(degrees * turningRatio / 2, rotationUnits::deg, turnSpeed, velocityUnits::pct);
@@ -100,19 +100,20 @@ void ProgrammingSkills( void ) {
     driveFor(1.6, 75); //drive slowly into low flag and align w wall
     driveFor(-0.4,75);
     turn(-45.0, 50);
-    driveFor(-2.01, 65);
+    driveFor(-1.61, 65);
     turn(-150.0, 35);
     driveFor(-0.6, 35);
     RollerMotor.spin(directionType::rev, 100, velocityUnits::pct);
     driveFor(2.5, 65);
     RollerMotor.stop();
-    driveFor(-4.2, 45);
+    driveFor(-3.9, 45);
     driveFor(0.48, 45);
     turn(-150.0, 35);
-    driveFor(2.75, 45);
+    driveFor(3.3, 45);
     turn(150.0, 35);
+    RollerMotor.startRotateFor(5000, rotationUnits::deg, 100, velocityUnits::pct);
     driveFor(-0.9, 25);
-    driveFor(5.6, 75);
+    driveFor(10, 48);
 }
 
 /*************************************************
@@ -180,33 +181,33 @@ void launch(controller::button launchButton){
 /*****OPERATOR CONTROL*****/
 
 void usercontrol( void ) {
-    
+
     if(DriverSkills) {
         thread rumbleThread = thread(rumbleTimer);
     }
-    
+
     while (1) {
-        
+
         controller::axis VERTICAL_AXIS = Controller1.Axis3;
         controller::axis HORIZONTAL_AXIS = Controller1.Axis1;
-        
+
         controller::button SLOW_LEFT = Controller1.ButtonLeft;
         controller::button SLOW_RIGHT = Controller1.ButtonRight;
         controller::button SLOW_UP = Controller1.ButtonUp;
-        
+
         controller::button INTAKE_IN = Controller1.ButtonL1;
         controller::button INTAKE_OUT = Controller1.ButtonL2;
-        
+
         controller::button LAUNCH_BUTTON = Controller1.ButtonR1;
-        
+
         drive(VERTICAL_AXIS, HORIZONTAL_AXIS);
-        
+
         launch(LAUNCH_BUTTON);
-        
+
         intake(INTAKE_IN, INTAKE_OUT);
-        
+
         slowDrive(SLOW_LEFT, SLOW_RIGHT, SLOW_UP);
-        
+
         task::sleep(20);
     }
 }
@@ -215,13 +216,13 @@ void usercontrol( void ) {
 /*****MAIN METHOD*****/
 
 int main() {
-    
+
     pre_auton();
-    
+
     comp.autonomous(ProgrammingSkills);
     comp.drivercontrol(usercontrol);
-    
-    
+
+
     while(1) {
         task::sleep(100);
     }
