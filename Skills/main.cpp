@@ -17,6 +17,9 @@ using namespace vex;
 //constant for wheel diameter
 const float WHEEL_DIAMETER = 4.125;
 
+//constant for DriverSkills
+const bool DriverSkills = true;
+
 
 /*****RUMBLE THREAD*****/
 void rumbleTimer(void) {
@@ -30,7 +33,7 @@ void rumbleTimer(void) {
 
 
 void pre_auton( void ) {
-
+    
 }
 
 
@@ -50,7 +53,7 @@ void driveFor( float tiles , int speed ){
     float circum =  3.141592653589 * WHEEL_DIAMETER;
     float rotations = length / circum;
     float degrees = 360 * rotations;
-
+    
     RightMotorFront.startRotateFor(degrees, rotationUnits::deg, speed, velocityUnits::pct);
     LeftMotorFront.startRotateFor(degrees, rotationUnits::deg, speed, velocityUnits::pct);
     RightMotorBack.startRotateFor(degrees, rotationUnits::deg, speed, velocityUnits::pct);
@@ -58,11 +61,10 @@ void driveFor( float tiles , int speed ){
 }
 
 
-void turn( float degrees ){
+void turn( float degrees , int turnSpeed){
     const float TURNING_DIAMETER = 17.5;
     float turningRatio = TURNING_DIAMETER / WHEEL_DIAMETER;
-    int turnSpeed = 60;
-
+    
     RightMotorFront.startRotateFor(degrees * turningRatio / 2, rotationUnits::deg, turnSpeed, velocityUnits::pct);
     LeftMotorFront.startRotateFor(-degrees * turningRatio / 2, rotationUnits::deg, turnSpeed, velocityUnits::pct);
     RightMotorBack.startRotateFor(degrees * turningRatio / 2, rotationUnits::deg, turnSpeed, velocityUnits::pct);
@@ -77,30 +79,40 @@ void shoot( void ){
 /*****PROGRAMMING SKILLS*****/
 
 void ProgrammingSkills( void ) {
-    driveFor(3.0, 100); //drive for 3 tiles to get ball
-    RollerMotor.startRotateFor(720, rotationUnits::deg, 100, velocityUnits::pct);
+    driveFor(3.0, 65); //drive for 3 tiles to get ball
+    RollerMotor.startRotateFor(-1000, rotationUnits::deg, 100, velocityUnits::pct);
     driveFor(0.6, 65); //drive slowly to approach ball
-    driveFor(-2.25, 100); //drive back and hit wall to align bot
+    RollerMotor.rotateFor(1000, rotationUnits::deg, 100, velocityUnits::pct);
+    driveFor(-5.0, 65); //drive back and hit wall to align bot
     task::sleep(200);
-    driveFor(-2.1, 50);
-    driveFor(0.34, 100); //drive slowly forward to avoid hitting wall when turning
+    driveFor(0.48, 100); //drive slowly forward to avoid hitting wall when turning
     task::sleep(300);
-    turn(146.0);
+    turn(155.0, 35);
     shoot();
-    turn(7.0);
     task::sleep(601);
-    driveFor(0.98, 100);
     RollerMotor.startRotateFor(4000, rotationUnits::deg, 100, velocityUnits::pct);
-    turn(-5.0);
-    driveFor(1.1, 100);
-    task::sleep(1000);
+    task::sleep(2000);
+    driveFor(2.35, 65);
+    task::sleep(200);
+    RollerMotor.startRotateFor(-600, rotationUnits::deg,100,velocityUnits::pct);
     shoot();
-    turn(25.0);
-    driveFor(1.6, 60); //drive slowly into low flag and align w wall
-    driveFor(-1.0, 50);
-    driveFor(-5.1, 90); //drive backwards for platform
-    turn(143.0); //turn so that back is facing platform
-    driveFor(-8.0, 100); //drive into platform
+    turn(35.0, 50);
+    driveFor(1.6, 75); //drive slowly into low flag and align w wall
+    driveFor(-0.4,75);
+    turn(-45.0, 50);
+    driveFor(-2.01, 65);
+    turn(-150.0, 35);
+    driveFor(-0.6, 35);
+    RollerMotor.spin(directionType::rev, 100, velocityUnits::pct);
+    driveFor(2.5, 65);
+    RollerMotor.stop();
+    driveFor(-4.2, 45);
+    driveFor(0.48, 45);
+    turn(-150.0, 35);
+    driveFor(2.75, 45);
+    turn(150.0, 35);
+    driveFor(-0.9, 25);
+    driveFor(5.6, 75);
 }
 
 /*************************************************
@@ -168,31 +180,33 @@ void launch(controller::button launchButton){
 /*****OPERATOR CONTROL*****/
 
 void usercontrol( void ) {
-
-    thread rumbleThread = thread(rumbleTimer);
-
+    
+    if(DriverSkills) {
+        thread rumbleThread = thread(rumbleTimer);
+    }
+    
     while (1) {
-
+        
         controller::axis VERTICAL_AXIS = Controller1.Axis3;
         controller::axis HORIZONTAL_AXIS = Controller1.Axis1;
-
+        
         controller::button SLOW_LEFT = Controller1.ButtonLeft;
         controller::button SLOW_RIGHT = Controller1.ButtonRight;
-        controller::button SLOW_UP = Controller1.ButtonR2;
-
+        controller::button SLOW_UP = Controller1.ButtonUp;
+        
         controller::button INTAKE_IN = Controller1.ButtonL1;
         controller::button INTAKE_OUT = Controller1.ButtonL2;
-
+        
         controller::button LAUNCH_BUTTON = Controller1.ButtonR1;
-
+        
         drive(VERTICAL_AXIS, HORIZONTAL_AXIS);
-
+        
         launch(LAUNCH_BUTTON);
-
+        
         intake(INTAKE_IN, INTAKE_OUT);
-
+        
         slowDrive(SLOW_LEFT, SLOW_RIGHT, SLOW_UP);
-
+        
         task::sleep(20);
     }
 }
@@ -201,12 +215,13 @@ void usercontrol( void ) {
 /*****MAIN METHOD*****/
 
 int main() {
-
+    
     pre_auton();
-
-    comp.drivercontrol(usercontrol);
+    
     comp.autonomous(ProgrammingSkills);
-
+    comp.drivercontrol(usercontrol);
+    
+    
     while(1) {
         task::sleep(100);
     }
