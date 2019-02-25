@@ -104,16 +104,69 @@ void ProgrammingSkills( void ) {
     turn(-150.0, 35);
     driveFor(-0.6, 35);
     RollerMotor.spin(directionType::rev, 100, velocityUnits::pct);
-    driveFor(2.5, 65);
+    driveFor(3.0, 65);
     RollerMotor.stop();
+    driveFor(1.5, 35);
+    driveFor(-0.7, 35);
+    turn(150.0, 35);
+    task::sleep(200);
+    driveFor(2.5, 45);
+    driveFor(-1.7, 45);
+    task::sleep(200);
+    turn(-140.0, 35);
     driveFor(-3.9, 45);
     driveFor(0.48, 45);
     turn(-150.0, 35);
-    driveFor(3.70, 45);
+    driveFor(4.17, 45);
     turn(150.0, 35);
     RollerMotor.startRotateFor(5000, rotationUnits::deg, 100, velocityUnits::pct);
     driveFor(-0.9, 25);
-    driveFor(10, 48);
+    driveFor(8.5, 60);
+
+    /*driveFor(3.0, 65); //drive for 3 tiles to get ball
+    RollerMotor.startRotateFor(-1000, rotationUnits::deg, 100, velocityUnits::pct);
+    driveFor(0.6, 65); //drive slowly to approach ball
+    RollerMotor.rotateFor(1000, rotationUnits::deg, 100, velocityUnits::pct);
+    driveFor(-5.0, 65); //drive back and hit wall to align bot
+    task::sleep(200);
+    driveFor(0.33, 100); //drive slowly forward to avoid hitting wall when turning
+    task::sleep(300);
+    turn(158.0, 35); //turn towards flags
+    task::sleep(200);
+    driveFor(3.7,65);//get low flags
+    task::sleep(200);
+    driveFor(-3.7,45);//go back
+    task::sleep(250);
+    turn(-91.0, 35);//turn towards middle post flags
+    shoot(); //middle post high flag
+    RollerMotor.startRotateFor(2500, rotationUnits::deg, 100, velocityUnits::pct);
+    turn(75.0, 35);//turn back
+    task::sleep(400);
+    driveFor(2.35, 65);
+    RollerMotor.startRotateFor(2500, rotationUnits::deg, 100, velocityUnits::pct);
+    task::sleep(200);
+    shoot();
+    turn(-150.0, 35);
+    driveFor(-0.6, 35);
+    RollerMotor.spin(directionType::rev, 100, velocityUnits::pct);
+    driveFor(3.0, 65);
+    RollerMotor.stop();
+    driveFor(1.5, 35);
+    driveFor(-0.7, 35);
+    turn(150.0, 35);
+    task::sleep(200);
+    driveFor(2.5, 45);
+    driveFor(-1.7, 45);
+    task::sleep(200);
+    turn(-140.0, 35);
+    driveFor(-3.9, 45);
+    driveFor(0.48, 45);
+    turn(-150.0, 35);
+    driveFor(4.17, 45);
+    /*turn(150.0, 35);
+    RollerMotor.startRotateFor(5000, rotationUnits::deg, 100, velocityUnits::pct);
+    driveFor(-0.9, 25);
+    driveFor(8.5, 60);*/
 }
 
 /*************************************************
