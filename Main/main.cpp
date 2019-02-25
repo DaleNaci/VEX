@@ -169,6 +169,12 @@ void BlueInsideLowFlag( void ){
     turn(-20.0);
     driveFor(1.6, 75); //drive slowly into low flag and align w wall
     driveFor(-0.4,75);
+    turn(45.0);
+    driveFor(-1.61, 65);
+    turn(160.0);
+    RollerMotor.spin(directionType::rev, 100, velocityUnits::pct);
+    driveFor(2.5, 85);
+    RollerMotor.stop();
 }
 
 
@@ -184,8 +190,8 @@ void BlueOutsidePlat ( void ){
     driveFor(1.7,65);
     RollerMotor.startRotateFor(1300,rotationUnits::deg, 1000, velocityUnits::pct);
     driveFor(-1.6, 65);
-    shoot();
-    turn(-80.0);
+    //shoot();
+    turn(-90.0);
     task::sleep(300);
     driveFor(4.3, 65);
 }
@@ -200,7 +206,7 @@ void RedOutsidePlat ( void ){
     driveFor(1.7,65);
     RollerMotor.startRotateFor(1300,rotationUnits::deg, 1000, velocityUnits::pct);
     driveFor(-1.2, 65);
-    shoot();
+    //shoot();
     turn(75.0);
     task::sleep(300);
     driveFor(4.4, 65);
@@ -264,13 +270,13 @@ void RedInsideLowFlag( void ){
     driveFor(0.6, 65); //drive slowly to approach ball
     driveFor(-5.0, 65); //drive back and hit wall to align bot
     task::sleep(200);
-    driveFor(0.48, 100); //drive slowly forward to avoid hitting wall when turning
+    driveFor(0.42, 100); //drive slowly forward to avoid hitting wall when turning
     task::sleep(300);
     turn(150.0);
     shoot();
     task::sleep(601);
     RollerMotor.startRotateFor(4000, rotationUnits::deg, 100, velocityUnits::pct);
-    task::sleep(2000);
+    task::sleep(1000);
     driveFor(2.35, 65);
     task::sleep(200);
     RollerMotor.startRotateFor(-600, rotationUnits::deg,100,velocityUnits::pct);
@@ -279,12 +285,11 @@ void RedInsideLowFlag( void ){
     driveFor(1.6, 75); //drive slowly into low flag and align w wall
     driveFor(-0.4,75);
     // This is where Dale copied and pasted from prog skills - be prepped to delete everything below
-    turn(-45.0, 50);
+    turn(-45.0);
     driveFor(-1.61, 65);
-    turn(-150.0, 35);
-    driveFor(-0.6, 35);
+    turn(-160.0);
     RollerMotor.spin(directionType::rev, 100, velocityUnits::pct);
-    driveFor(2.5, 65);
+    driveFor(2.5, 85);
     RollerMotor.stop();
 }
 

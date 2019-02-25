@@ -109,7 +109,7 @@ void ProgrammingSkills( void ) {
     driveFor(-3.9, 45);
     driveFor(0.48, 45);
     turn(-150.0, 35);
-    driveFor(3.3, 45);
+    driveFor(3.70, 45);
     turn(150.0, 35);
     RollerMotor.startRotateFor(5000, rotationUnits::deg, 100, velocityUnits::pct);
     driveFor(-0.9, 25);
