@@ -1,4 +1,4 @@
-#include "robot-config.h"
+#include "vex.h"
 
 using namespace vex;
 
@@ -12,7 +12,7 @@ using namespace vex;
 
 
 void pre_auton( void ) {
-  
+
 }
 
 int autonSelectorRedScreen( void ){
@@ -107,7 +107,7 @@ void opDrive( controller::axis left, controller::axis right){
 
 void launch(controller::button launchButton){
     if(launchButton.pressing()){
-        LauncherMotor.spin(directionType::rev, 100, velocityUnits::pct);
+        LauncherMotor.spin(directionType::fwd, 100, velocityUnits::pct);
     }
     else{
         LauncherMotor.stop();
@@ -142,7 +142,7 @@ void usercontrol( void ) {
   while (1) {
 
     controller::axis VERTICAL_AXIS = controller1.Axis3;
-    controller::axis HORIZONTAL_AXIS = controller1.Axis3;
+    controller::axis HORIZONTAL_AXIS = controller1.Axis1;
 
     controller::button LAUNCH_BUTTON = controller1.ButtonR1;
 
@@ -167,10 +167,10 @@ void usercontrol( void ) {
 int main() {
     //Competition.autonomous( autonomous );
     Competition.drivercontrol( usercontrol );
-    
+
     pre_auton();
-                 
+
     while(1) {
       task::sleep(100);
-    }       
+    }
 }
