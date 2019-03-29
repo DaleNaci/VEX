@@ -10,22 +10,22 @@ using namespace vex;
 
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
-/*                          VEX Worlds Main File                             */
+/*                         VEX Worlds Header File                            */
 /*                               Version 1.0                                 */
 /*                                Team 750E                                  */
 /*                                                                           */
 /*---------------------------------------------------------------------------*/
 
-const int FRONT_RIGHT = PORT1;
-const int FRONT_LEFT = PORT2;
-const int BACK_RIGHT = PORT3;
-const int BACK_LEFT = PORT4;
+const int FRONT_RIGHT = PORT4;
+const int FRONT_LEFT = PORT11;
+const int BACK_RIGHT = PORT14;
+const int BACK_LEFT = PORT10;
 
-const int LAUNCHER = PORT5;
+const int LAUNCHER = PORT1;
 
-const int ANGLE_ADJUST = PORT6;
+const int ANGLE_ADJUST = PORT2;
 
-const int ROLLER_MOTOR = PORT7;
+const int ROLLER_MOTOR = PORT3;
 
 
 
