@@ -128,13 +128,13 @@ void intake(controller::button inButton, controller::button outButton){
 
 void adjust(controller::button up, controller::button down){
     if(up.pressing()){
-        AngleAdjusterMotor.spin(directionType::rev, 40, velocityUnits::pct);
+        AngleAdjusterMotor.spin(directionType::rev, 70, velocityUnits::pct);
     }
     else if(down.pressing()){
-        AngleAdjusterMotor.spin(directionType::fwd, 40, velocityUnits::pct);
+        AngleAdjusterMotor.spin(directionType::fwd, 70, velocityUnits::pct);
     }
     else{
-      AngleAdjusterMotor.stop();
+      AngleAdjusterMotor.stop(vex::brakeType::hold);
     }
 }
 
