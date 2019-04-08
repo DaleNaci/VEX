@@ -10,6 +10,7 @@ using namespace vex;
 /*                                                                           */
 /*---------------------------------------------------------------------------*/
 
+bool launching = false;
 
 void pre_auton( void ) {
 
@@ -106,11 +107,9 @@ void opDrive( controller::axis left, controller::axis right){
 }
 
 void launch(controller::button launchButton){
-    if(launchButton.pressing()){
-        LauncherMotor.spin(directionType::fwd, 100, velocityUnits::pct);
-    }
-    else{
-        LauncherMotor.stop();
+    launching = LauncherMotor.isSpinning();
+    if (launchButton.pressing() && !launching) {
+      LauncherMotor.startRotateFor(directionType::fwd, 100, rotationUnits::deg);
     }
 }
 
@@ -128,10 +127,10 @@ void intake(controller::button inButton, controller::button outButton){
 
 void adjust(controller::button up, controller::button down){
     if(up.pressing()){
-        AngleAdjusterMotor.spin(directionType::rev, 70, velocityUnits::pct);
+        AngleAdjusterMotor.spin(directionType::rev, 100, velocityUnits::pct);
     }
     else if(down.pressing()){
-        AngleAdjusterMotor.spin(directionType::fwd, 70, velocityUnits::pct);
+        AngleAdjusterMotor.spin(directionType::fwd, 100, velocityUnits::pct);
     }
     else{
       AngleAdjusterMotor.stop(vex::brakeType::hold);
@@ -139,6 +138,11 @@ void adjust(controller::button up, controller::button down){
 }
 
 void usercontrol( void ) {
+
+  // 180 NUMBER MIGHT NEED FINE-TUNING
+  LauncherMotor.startRotateFor(directionType::fwd, 180, rotationUnits::deg);
+  LauncherMotor.resetRotation();
+
   while (1) {
 
     controller::axis VERTICAL_AXIS = controller1.Axis3;
