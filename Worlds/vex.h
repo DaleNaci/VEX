@@ -45,3 +45,5 @@ motor LauncherMotor(LAUNCHER, false);
 motor AngleAdjusterMotor(ANGLE_ADJUST, false);
 
 motor RollerMotor(ROLLER_MOTOR, false);
+
+gyro g = gyro(Brain.ThreeWirePort.B);
