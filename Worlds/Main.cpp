@@ -12,8 +12,11 @@ using namespace vex;
 
 bool launching = false;
 
-void pre_auton( void ) {
+void pre_auton( void ) { }
 
+void puncherDraw(void) {
+  LauncherMotor.rotateFor(directionType::fwd, 180, rotationUnits::deg);
+  LauncherMotor.resetRotation();
 }
 
 int autonSelectorRedScreen( void ){
@@ -140,8 +143,7 @@ void adjust(controller::button up, controller::button down){
 void usercontrol( void ) {
 
   // 180 NUMBER MIGHT NEED FINE-TUNING
-  LauncherMotor.startRotateFor(directionType::fwd, 180, rotationUnits::deg);
-  LauncherMotor.resetRotation();
+  thread puncherThread = thread(puncherDraw);
 
   while (1) {
 
