@@ -198,7 +198,7 @@ void adjust(controller::button up, controller::button down){
 }
 
 void resetLauncher ( void ){
-    LauncherMotor.rotateFor(directionType::fwd, 180, rotationUnits::deg);
+    LauncherMotor.rotateFor(directionType::fwd, 360, rotationUnits::deg);
     LauncherMotor.resetRotation();
 }
 
