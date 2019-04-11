@@ -15,7 +15,7 @@ bool launching = false;
 void pre_auton( void ) { }
 
 void puncherDraw(void) {
-  LauncherMotor.rotateFor(directionType::fwd, 360, rotationUnits::deg);
+  LauncherMotor.rotateFor(directionType::fwd, 500, rotationUnits::deg, 100, velocityUnits::pct);
   LauncherMotor.resetRotation();
 }
 
@@ -112,7 +112,7 @@ void opDrive( controller::axis left, controller::axis right){
 void launch(controller::button launchButton){
     launching = LauncherMotor.isSpinning();
     if (launchButton.pressing() && !launching) {
-      LauncherMotor.startRotateFor(directionType::fwd, 360, rotationUnits::deg);
+      LauncherMotor.startRotateFor(directionType::fwd, 720, rotationUnits::deg, 100, velocityUnits::pct);
     }
 }
 
@@ -143,7 +143,6 @@ void adjust(controller::button up, controller::button down){
 
 void usercontrol( void ) {
 
-  // 180 NUMBER MIGHT NEED FINE-TUNING
   thread puncherThread = thread(puncherDraw);
 
   while (1) {
