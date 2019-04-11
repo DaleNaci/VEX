@@ -15,7 +15,7 @@ bool launching = false;
 void pre_auton( void ) { }
 
 void puncherDraw(void) {
-  LauncherMotor.rotateFor(directionType::fwd, 180, rotationUnits::deg);
+  LauncherMotor.rotateFor(directionType::fwd, 360, rotationUnits::deg);
   LauncherMotor.resetRotation();
 }
 
@@ -140,10 +140,6 @@ void adjust(controller::button up, controller::button down){
     }
 }
 
-void resetLauncher ( void ){
-    LauncherMotor.rotateFor(directionType::fwd, 360, rotationUnits::deg);
-    LauncherMotor.resetRotation();
-}
 
 void usercontrol( void ) {
 
