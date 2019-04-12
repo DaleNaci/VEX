@@ -25,7 +25,7 @@ const int LAUNCHER = PORT1;
 
 const int ANGLE_ADJUST = PORT2;
 
-const int ROLLER_MOTOR = PORT3;
+const int ROLLER_MOTOR = PORT6;
 
 
 
