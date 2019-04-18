@@ -11,6 +11,7 @@ using namespace vex;
 /*---------------------------------------------------------------------------*/
 
 bool launching = false;
+bool performingAction = false;
 
 void pre_auton( void ) { }
 
@@ -149,6 +150,11 @@ void wait(int time) {
     task::sleep(time);
 }
 
+void rollerSettings() {
+    RollerMotor.spin(directionType::fwd);
+    RollerMotor.setVelocity(100, velocityUnits::pct);
+}
+
 int autonSelectorRedScreen( void ){
     Brain.Screen.clearScreen();
 
@@ -225,18 +231,44 @@ int autonSelectorMainScreen( void ) {
 }
 
 void RedInside ( void ){
+    puncherDraw();
+    rollerSettings();
+    rotateRollers(4100);
+    driveFor(2.55, 50);
+    wait(1150);
+    rotateRollers(-450);
+    driveFor(-2.7, 50);
+    turn(150, true);
+    changeAngle(20);
+    autonLaunch();
+    rotateRollers(1200);
+    wait(1000);
+    changeAngle(230);
+    autonLaunch();
 
 }
 
 void BlueInside ( void ){
-
+    puncherDraw();
+    rollerSettings();
+    rotateRollers(4100);
+    driveFor(2.55, 50);
+    wait(1150);
+    rotateRollers(-450);
+    driveFor(-2.7, 50);
+    turn(110, false);
+    changeAngle(15);
+    autonLaunch();
+    rotateRollers(1200);
+    wait(1000);
+    changeAngle(253);
+    autonLaunch();
 }
 
 void RedOutside ( void ){
     changeAngle(197);
     puncherDraw();
-    RollerMotor.spin(directionType::fwd);
-    RollerMotor.setVelocity(100, velocityUnits::pct);
+    rollerSettings();
     rotateRollers(4100);
     driveFor(2.51, 40);
     wait(1200);
@@ -256,8 +288,7 @@ void RedOutside ( void ){
 void BlueOutside ( void ){
     changeAngle(197);
     puncherDraw();
-    RollerMotor.spin(directionType::fwd);
-    RollerMotor.setVelocity(100, velocityUnits::pct);
+    rollerSettings();
     rotateRollers(4400);
     driveFor(2.51, 40);
     wait(2000);
@@ -275,7 +306,7 @@ void BlueOutside ( void ){
 }
 
 void AutonTest ( void ) {
-  changeAngle(-100);
+  driveFor(1, 30);
 }
 
 void autonomous( void ) {
@@ -326,6 +357,14 @@ void adjust(controller::button up, controller::button down){
     }
 }
 
+void doubleShot(controller::button up) {
+    if (!performingAction && up.pressing()) {
+        performingAction = true;
+        // DOUBLE SHOT
+        performingAction = false;
+    }
+}
+
 
 void usercontrol( void ) {
 
@@ -344,20 +383,24 @@ void usercontrol( void ) {
         controller::button ANGLE_UP = controller1.ButtonA;
         controller::button ANGLE_DOWN = controller1.ButtonX;
 
+        controller::button DOUBLE_SHOT = controller1.ButtonUp;
+
         opDrive(VERTICAL_AXIS, HORIZONTAL_AXIS);
-        
+
         launch(LAUNCH_BUTTON);
 
         intake(INTAKE_IN, INTAKE_OUT);
 
         adjust(ANGLE_UP, ANGLE_DOWN);
 
+        doubleShot(DOUBLE_SHOT);
+
         task::sleep(20);
     }
 }
 
 int main() {
-    Competition.autonomous( BlueOutside );
+    Competition.autonomous( RedInside );
     Competition.drivercontrol( usercontrol );
 
     pre_auton();
