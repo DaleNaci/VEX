@@ -22,63 +22,64 @@ void puncherDraw(void) {
 
 void gyroTurn(double angle) {
     task::sleep(200);
-
+    
     const double ENDPOINT = g.value(rotationUnits::deg) + angle;
-
-
+    
+    
     double currentValue = g.value(rotationUnits::deg);
     double currentError = currentValue - ENDPOINT;
     double previousError = 0.00;
     double totalError = 0.00;
     const double INTEGRAL_LIMIT = 500.0;
-
+    
     while(fabs(currentError) > 0.10) {
-
-        double kP = 0.40;
-        double kI = 0.10;
-        double kD = 0.50;
-
+        
+        double kP = 0.50;
+        double kI = 0.20;
+        double kD = 0.10;
+        
         previousError = currentError;
         currentError = ENDPOINT - currentValue;
-
+        
         double p = kP * currentError;
         double i = kI * totalError;
-        double d = kD * (currentError - previousError) / 0.02;
-
+        double d = kD * (currentError - previousError);
+        
         FrontRightMotor.spin(directionType::fwd, p + i + d, velocityUnits::pct);
         FrontLeftMotor.spin(directionType::rev, p + i + d, velocityUnits::pct);
         BackLeftMotor.spin(directionType::rev, p + i + d, velocityUnits::pct);
         BackRightMotor.spin(directionType::fwd, p + i + d, velocityUnits::pct);
-
+        
         currentValue = g.value(rotationUnits::deg);
         totalError += previousError;
-
+        
         if(totalError > INTEGRAL_LIMIT) totalError = INTEGRAL_LIMIT;
         if(totalError < -INTEGRAL_LIMIT) totalError = -INTEGRAL_LIMIT;
-
+        
         task::sleep(20);
     }
-
+    
     FrontRightMotor.stop(brakeType::brake);
     FrontLeftMotor.stop(brakeType::brake);
     BackLeftMotor.stop(brakeType::brake);
     BackRightMotor.stop(brakeType::brake);
-
+    
 }
+
 
 void turn(double angle, bool reversed) {
     int multiplier = 1;
     if (reversed) {
-      multiplier = -1;
+        multiplier = -1;
     }
     const double error_multiplier = .255;
     const double finalAngle = angle * multiplier * error_multiplier;
-
+    
     g.startCalibration();
     while(g.isCalibrating()){
         task::sleep(10);
     }
-
+    
     task::sleep(500);
     if (reversed) {
         while(g.value(rotationUnits::deg) > finalAngle) {
@@ -115,7 +116,7 @@ void driveFor( float tiles , int speed ){
     float circum =  3.141592653589 * 4.125;
     float rotations = length / circum;
     float degrees = 360 * rotations;
-
+    
     FrontRightMotor.startRotateFor(degrees, rotationUnits::deg, speed, velocityUnits::pct);
     FrontLeftMotor.startRotateFor(degrees, rotationUnits::deg, speed, velocityUnits::pct);
     BackRightMotor.startRotateFor(degrees, rotationUnits::deg, speed, velocityUnits::pct);
@@ -157,18 +158,18 @@ void rollerSettings() {
 
 int autonSelectorRedScreen( void ){
     Brain.Screen.clearScreen();
-
+    
     Brain.Screen.drawRectangle(10, 10, 140, 75, color::red);
     Brain.Screen.drawRectangle(160, 10, 140, 75, color::red);
-
-    Brain.Screen.printAt(70, 55, "1");
-    Brain.Screen.printAt(220, 55, "2");
-
+    
+    Brain.Screen.printAt(70, 55, "Red Inside");
+    Brain.Screen.printAt(220, 55, "Red Outside");
+    
     while(true){
         if(Brain.Screen.pressing()){
             int xpos = Brain.Screen.xPosition();
             int ypos = Brain.Screen.yPosition();
-
+            
             if(ypos >= 10 && ypos <= 75){
                 if(xpos >= 10 && xpos <= 150){
                     return 1;
@@ -183,18 +184,18 @@ int autonSelectorRedScreen( void ){
 
 int autonSelectorBlueScreen( void ){
     Brain.Screen.clearScreen();
-
+    
     Brain.Screen.drawRectangle(10, 10, 140, 75, color::blue);
     Brain.Screen.drawRectangle(160, 10, 140, 75, color::blue);
-
-    Brain.Screen.printAt(70, 55, "1");
-    Brain.Screen.printAt(220, 55, "2");
-
+    
+    Brain.Screen.printAt(70, 55, "Blue Inside");
+    Brain.Screen.printAt(220, 55, "Blue Outside");
+    
     while(true){
         if(Brain.Screen.pressing()){
             int xpos = Brain.Screen.xPosition();
             int ypos = Brain.Screen.yPosition();
-
+            
             if(ypos >= 10 && ypos <= 85){
                 if(xpos >= 10 && xpos <= 150){
                     return 3;
@@ -209,17 +210,17 @@ int autonSelectorBlueScreen( void ){
 
 int autonSelectorMainScreen( void ) {
     Brain.Screen.clearScreen();
-
+    
     Brain.Screen.drawRectangle(10, 10, 200, 150, color::red);
     Brain.Screen.drawRectangle(250, 10, 200, 150, color::blue);
-
+    
     Brain.Screen.printAt(90, 50, "Red");
     Brain.Screen.printAt(320, 50, "Blue");
-
+    
     while (true){
         if(Brain.Screen.pressing()){
             int xpos = Brain.Screen.xPosition();
-
+            
             if(xpos >= 10 && xpos <= 210){
                 return autonSelectorRedScreen();
             }
@@ -231,6 +232,7 @@ int autonSelectorMainScreen( void ) {
 }
 
 void RedInside ( void ){
+    //1
     puncherDraw();
     rollerSettings();
     rotateRollers(4100);
@@ -245,10 +247,11 @@ void RedInside ( void ){
     wait(1000);
     changeAngle(230);
     autonLaunch();
-
+    
 }
 
 void BlueInside ( void ){
+    //3
     puncherDraw();
     rollerSettings();
     rotateRollers(4100);
@@ -266,6 +269,7 @@ void BlueInside ( void ){
 }
 
 void RedOutside ( void ){
+    //2
     changeAngle(197);
     puncherDraw();
     rollerSettings();
@@ -286,6 +290,7 @@ void RedOutside ( void ){
 }
 
 void BlueOutside ( void ){
+    //4
     changeAngle(197);
     puncherDraw();
     rollerSettings();
@@ -306,15 +311,28 @@ void BlueOutside ( void ){
 }
 
 void AutonTest ( void ) {
-  driveFor(1, 30);
+    driveFor(1, 30);
 }
 
 void autonomous( void ) {
-    /*int auton = autonSelectorMainScreen();
-     switch(auton){
-     case 1:
-     break;
-     }*/
+    int auton = autonSelectorMainScreen();
+    switch(auton){
+        case 1:
+            RedInside();
+            break;
+            
+        case 2:
+            RedOutside();
+            break;
+            
+        case 3:
+            BlueInside();
+            break;
+            
+        case 4:
+            BlueOutside();
+            break;
+    }
 }
 
 
@@ -357,6 +375,8 @@ void adjust(controller::button up, controller::button down){
     }
 }
 
+
+//WORK ON
 void doubleShot(controller::button up) {
     if (!performingAction && up.pressing()) {
         performingAction = true;
@@ -367,44 +387,44 @@ void doubleShot(controller::button up) {
 
 
 void usercontrol( void ) {
-
+    
     thread puncherThread = thread(puncherDraw);
-
+    
     while (1) {
-
+        
         controller::axis VERTICAL_AXIS = controller1.Axis3;
         controller::axis HORIZONTAL_AXIS = controller1.Axis1;
-
+        
         controller::button LAUNCH_BUTTON = controller1.ButtonR1;
-
+        
         controller::button INTAKE_IN = controller1.ButtonL1;
         controller::button INTAKE_OUT = controller1.ButtonL2;
-
+        
         controller::button ANGLE_UP = controller1.ButtonA;
         controller::button ANGLE_DOWN = controller1.ButtonX;
-
+        
         controller::button DOUBLE_SHOT = controller1.ButtonUp;
-
+        
         opDrive(VERTICAL_AXIS, HORIZONTAL_AXIS);
-
+        
         launch(LAUNCH_BUTTON);
-
+        
         intake(INTAKE_IN, INTAKE_OUT);
-
+        
         adjust(ANGLE_UP, ANGLE_DOWN);
-
+        
         doubleShot(DOUBLE_SHOT);
-
+        
         task::sleep(20);
     }
 }
 
 int main() {
-    Competition.autonomous( RedInside );
+    Competition.autonomous( autonomous );
     Competition.drivercontrol( usercontrol );
-
+    
     pre_auton();
-
+    
     while(1) {
         task::sleep(100);
     }
