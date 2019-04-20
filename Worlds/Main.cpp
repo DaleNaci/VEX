@@ -322,6 +322,14 @@ void adjust(controller::button up, controller::button down){
     }
 }
 
+//TEST ALL FEATURES
+void testAuton ( void ){
+    driveFor(3.0, 50);
+    gyroTurn(90.0);
+    rotateRollers(1000);
+    changeAngle(40);
+    autonLaunch();
+}
 
 //WORK ON
 void doubleShot(controller::button up) {
