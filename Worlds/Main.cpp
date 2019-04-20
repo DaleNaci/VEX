@@ -139,6 +139,18 @@ void turn(double angle, bool reversed) {
     BackRightMotor.stop();
 }
 
+void turnNonGyro( float degrees ){
+    const float TURNING_DIAMETER = 17.5;
+    const float WHEEL_DIAMETER = 4.125;
+    float turningRatio = TURNING_DIAMETER / WHEEL_DIAMETER;
+    int turnSpeed = 45;
+    
+    FrontRightMotor.startRotateFor(degrees * turningRatio / 2, rotationUnits::deg, turnSpeed, velocityUnits::pct);
+    FrontLeftMotor.startRotateFor(-degrees * turningRatio / 2, rotationUnits::deg, turnSpeed, velocityUnits::pct);
+    BackRightMotor.startRotateFor(degrees * turningRatio / 2, rotationUnits::deg, turnSpeed, velocityUnits::pct);
+    BackLeftMotor.rotateFor(-degrees * turningRatio / 2, rotationUnits::deg, turnSpeed, velocityUnits::pct);
+}
+
 void driveFor( float tiles , int speed ){
     const float TILE_LENGTH = 12.5;
     float length = tiles * TILE_LENGTH;
