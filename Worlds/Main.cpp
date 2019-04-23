@@ -1,4 +1,5 @@
 #include "vex.h"
+#include <sstream>
 
 using namespace vex;
 
@@ -13,6 +14,10 @@ using namespace vex;
 bool launching = false;
 bool performingAction = false;
 bool puncherDrawback = true;
+
+bool settingShot = false;
+
+float autonTime = 0.0;
 
 void pre_auton( void ) { }
 
@@ -164,6 +169,10 @@ void doubleShotChangeAngle(double rot) {
   AngleAdjusterMotor.rotateFor(directionType::fwd, rot, rotationUnits::deg, 100, velocityUnits::pct);
 }
 
+void doubleShotLauncher() {
+  LauncherMotor.startRotateFor(directionType::fwd, 720, rotationUnits::deg, 100, velocityUnits::pct);
+}
+
 int autonSelectorRedScreen( void ){
     Brain.Screen.clearScreen();
 
@@ -242,104 +251,119 @@ int autonSelectorMainScreen( void ) {
 void RedInside ( void ){
     //1
     autonPuncherDraw();
-    driveFor(1.4, 50);
-    rotateRollers(1400);
-    wait(100);
-    driveFor(-1.695, 48);
-    wait(25);
-    rotateRollers(-370);
-    gyroTurn(-91.3);
-    changeAngle(-115);
+    startChangeAngle(-180);
+    driveFor(1.4, 53);
+    rotateRollers(1450);
+    wait(90);
+    driveFor(-1.695, 56);
+    wait(24);
+    rotateRollers(-540);
+    gyroTurn(-89.8);
     autonLaunch();
-    wait(50);
-    rotateRollers(1400);
-    changeAngle(-220);
-    wait(280);
-    autonShortLaunch();
     wait(40);
+    rotateRollers(2100);
+    changeAngle(-220);
+    wait(330);
+    autonShortLaunch();
+    wait(30);
     startChangeAngle(45);
     rotateRollers(2400);
-    turnNonGyro(-3.94);
-    driveFor(1.97, 70);
+    turnNonGyro(-3.40);
+    driveFor(1.85, 70);
     rotateRollers(1600);
-    driveFor(-.83, 65); // THIS CODE DOESN'T GO FOR CAP
-    gyroTurn(82.3);
-    autonPuncherDraw();
-    driveFor(.3, 52);
+    startChangeAngle(60);
+    wait(50);
+    turnNonGyro(-3.40);
+    wait(20);
+    driveFor(-1.03, 67); // THIS CODE DOESN'T GO FOR CAP
+    gyroTurn(85.6);
+    rotateRollers(200);
+    wait(30);
     autonLaunch();
-
-    // turnNonGyro(95);  THIS CODE GOES FOR CAP
-    // rotateRollers(1330);
-    // wait(450);
-    // rotateRollers(-2000);
-    // autonPuncherDraw();
-    // driveFor(1.05, 34);
-    // turnNonGyro(-24.8);
-    // changeAngle(35);
-    // wait(20);
-    // autonShortLaunch();
-
-
 }
 
 void BlueInside ( void ){
     //3
     autonPuncherDraw();
-    driveFor(1.4, 50);
-    rotateRollers(1400);
+    startChangeAngle(-180);
+    driveFor(1.4, 52);
+    rotateRollers(1420);
     wait(100);
-    driveFor(-1.678, 48);
-    wait(25);
-    rotateRollers(-370);
-    gyroTurn(91.5);
-    changeAngle(-115);
+    driveFor(-1.66, 54);
+    wait(20);
+    rotateRollers(-800);
+    gyroTurn(93.4);
+    wait(150);
     autonLaunch();
-    wait(50);
-    rotateRollers(1400);
+    rotateRollers(1650);
     changeAngle(-220);
     wait(280);
     autonShortLaunch();
-    wait(40);
+    wait(35);
     startChangeAngle(45);
     rotateRollers(2400);
-    turnNonGyro(7.6);
-    driveFor(1.97, 65);
+    turnNonGyro(6.3);
+    driveFor(1.99, 68);
     rotateRollers(1600);
-    driveFor(-.83, 70); // THIS CODE DOESN'T GO FOR CAP
-    gyroTurn(-82.3);
+    startChangeAngle(60);
+    wait(50);
+    turnNonGyro(10);
+    wait(100);
+    driveFor(-.95, 66);
+    wait(50);
+    gyroTurn(-83);
+    rotateRollers(400);
+    startChangeAngle(80);
+    wait(30);
+    rotateRollers(500);
+    wait(30);
     autonPuncherDraw();
-    driveFor(.3, 52);
     autonLaunch();
 }
 
 void RedOutside ( void ){
     //2
     driveFor(1.4, 30);
+    startChangeAngle(-180);
     autonPuncherDraw();
     rotateRollers(800);
-    driveFor(-.47, 20);
-    gyroTurn(-57.8);
-    changeAngle(-260);
+    wait(500);
+    driveFor(-.34, 20);
+    wait(500);
+    gyroTurn(-60.85);
     autonLaunch();
-    rotateRollers(1200);
-    changeAngle(-170);
+    rotateRollers(2000);
+    startChangeAngle(-180);
     wait(2000);
-    autonLaunch();
+    autonShortLaunch();
+    driveFor(-.9, 70);
+    wait(100);
+    turnNonGyro(81);
+    rotateRollers(-3000);
+    driveFor(.83, 30);
 }
 
 void BlueOutside ( void ){
     //4
     driveFor(1.4, 30);
+    startChangeAngle(-30);
     autonPuncherDraw();
+    startChangeAngle(-190);
     rotateRollers(800);
-    driveFor(-.47, 20);
-    gyroTurn(57.8);
-    changeAngle(-260);
+    wait(500);
+    driveFor(-.34, 20);
+    wait(500);
+    gyroTurn(58.1);
     autonLaunch();
-    rotateRollers(1200);
-    changeAngle(-170);
+    rotateRollers(2000);
+    startChangeAngle(-185);
     wait(2000);
-    autonLaunch();
+    autonShortLaunch();
+    driveFor(-.9, 70);
+    wait(300);
+    turnNonGyro(-80.1);
+    rotateRollers(-3000);
+    driveFor(1.0, 30);
 }
 
 
@@ -387,30 +411,64 @@ void adjust(controller::button up, controller::button down){
     else if(down.pressing()){
         AngleAdjusterMotor.spin(directionType::fwd, 100, velocityUnits::pct);
     }
-    else{
+    else if(!performingAction && !settingShot){
         AngleAdjusterMotor.stop(vex::brakeType::hold);
     }
 }
 
 //TEST
 void TestAuton ( void ){
-    gyroTurn(45);
+
+}
+
+void finishDS( void ){
+    doubleShotChangeAngle(-340);
+    performingAction = false;
 }
 
 //WORK ON
 void doubleShot(controller::button R2) {
     if (!performingAction && R2.pressing()) {
         performingAction = true;
-        autonLaunch();
-        doubleShotChangeAngle(-220);
+        autonShortLaunch();
+        thread changing = thread(finishDS);
+        autonPuncherDraw();
+        int i = 0;
+        while (performingAction && i < 20) {
+            i++;
+            wait(50);
+        }
         performingAction = false;
     }
-    // } else if (R2.pressing()) {
-    //     doubleShotChangeAngle(50);
-    //     wait(100);
-    // }
 }
 
+void settingHighFlag( void ) {
+    changeAngle(200);
+    settingShot = false;
+}
+
+void backDoubleShot(controller::button left) {
+    if (!performingAction && left.pressing()) {
+        performingAction = true;
+        autonShortLaunch();
+        thread setHighFlag = thread(settingHighFlag);
+        autonPuncherDraw();
+        int i = 0;
+        while (performingAction && i < 20) {
+            i++;
+            wait(50);
+        }
+        performingAction = false;
+
+    }
+}
+
+void backShot(controller::button up) {
+    if (!performingAction && !settingShot && up.pressing()) {
+        settingShot = true;
+        thread setHighFlag = thread(settingHighFlag);
+    }
+}
 
 
 void usercontrol( void ) {
@@ -432,6 +490,9 @@ void usercontrol( void ) {
 
         controller::button DOUBLE_SHOT = controller1.ButtonR2;
 
+        controller::button BACK_HIGH_FLAG = controller1.ButtonUp;
+        controller::button BACK_DOUBLE_SHOT = controller1.ButtonLeft;
+
         opDrive(VERTICAL_AXIS, HORIZONTAL_AXIS);
 
         launch(LAUNCH_BUTTON);
@@ -442,30 +503,35 @@ void usercontrol( void ) {
 
         doubleShot(DOUBLE_SHOT);
 
+        backShot(BACK_HIGH_FLAG);
+
+        backDoubleShot(BACK_DOUBLE_SHOT);
+
         task::sleep(20);
     }
 }
 
 int main() {
-    int auton = autonomous();
-    switch(auton){
-        case 1:
-            Competition.autonomous( RedInside );
-            break;
+    // int auton = autonomous();
+    // switch(auton){
+    //     case 1:
+    //         Competition.autonomous( RedInside );
+    //         break;
 
-        case 2:
-            Competition.autonomous( RedOutside );
-            break;
+    //     case 2:
+    //         Competition.autonomous( RedOutside );
+    //         break;
 
-        case 3:
-            Competition.autonomous( BlueInside );
-            break;
+    //     case 3:
+    //         Competition.autonomous( BlueInside );
+    //         break;
 
-        case 4:
-            Competition.autonomous( BlueOutside );
-            break;
-    }
-    //Competition.autonomous ( BlueInside );
+    //     case 4:
+    //         Competition.autonomous( BlueOutside );
+    //         break;
+    // }
+
+    Competition.autonomous ( RedInside );
 
     Brain.Screen.clearScreen();
 
