@@ -43,7 +43,7 @@ void gyroTurn(double angle) {
     double currentError = ENDPOINT - currentValue;
     double previousError = 0.00;
     
-    while(fabs(currentError) > 1.40) {
+    while(fabs(currentError) > 1.80) {
         
         controller1.Screen.setCursor(1, 1);
         controller1.Screen.print(currentError);
@@ -111,7 +111,7 @@ void gyroTurn(double angle) {
 
 void turnNonGyro( float degrees ){
     const float errorFix = -4.0;
-    int turnSpeed = 460;
+    int turnSpeed = 30;
     
     FrontRightMotor.startRotateFor(degrees * errorFix, rotationUnits::deg, turnSpeed, velocityUnits::pct);
     FrontLeftMotor.startRotateFor(-degrees * errorFix, rotationUnits::deg, turnSpeed, velocityUnits::pct);
@@ -155,7 +155,7 @@ void rotateRollersRev(int rot) {
 }
 
 void changeAngle(double rot) {
-    AngleAdjusterMotor.rotateFor(directionType::fwd, rot, rotationUnits::deg);
+    AngleAdjusterMotor.rotateFor(directionType::fwd, rot, rotationUnits::deg, 100, velocityUnits::pct);
 }
 
 void autonLaunch() {
@@ -257,70 +257,74 @@ void RedInside ( void ){
     //1
     autonPuncherDraw();
     startChangeAngle(-180);
-    driveFor(1.4, 65);
+    driveFor(1.5, 55);
     rotateRollers(1450);
     wait(90);
-    driveFor(-1.695, 56);
+    driveFor(-1.72, 56);
     wait(24);
+    driveFor(0.1, 20);
     rotateRollers(-540);
-    gyroTurn(-89.0);
+    gyroTurn(-88.9);
+    wait(40);
     autonLaunch();
     wait(40);
-    rotateRollers(2100);
+    rotateRollers(1800);
     changeAngle(-220);
-    wait(330);
-    autonShortLaunch();
+    wait(700);
+    autonLaunch();
     wait(30);
     startChangeAngle(45);
     rotateRollers(2400);
     turnNonGyro(-3.40);
-    driveFor(1.85, 70);
+    wait(40);
+    driveFor(1.89, 70);
     rotateRollers(1600);
     startChangeAngle(60);
     wait(50);
     turnNonGyro(-3.40);
     wait(20);
     driveFor(-1.03, 67); // THIS CODE DOESN'T GO FOR CAP
-    turnNonGyro(66.0);
+    turnNonGyro(54.0);
     rotateRollers(2000);
     wait(30);
     autonLaunch();
-    turnNonGyro(30.0);
-    rotateRollers(2000);
-    driveFor(1.5, 50);
+    /*turnNonGyro(30.0);
+     rotateRollers(-2000);
+     driveFor(1.5, 50);*/
 }
 
 void BlueInside ( void ){
     //3
     autonPuncherDraw();
     startChangeAngle(-180);
-    driveFor(1.4, 52);
+    driveFor(1.5, 52);
     rotateRollers(1420);
     wait(100);
-    driveFor(-1.66, 54);
+    driveFor(-1.72, 54);
     wait(20);
+    driveFor(0.1, 20);
     rotateRollers(-800);
-    gyroTurn(93.4);
+    gyroTurn(87.2);
     wait(150);
     autonLaunch();
     rotateRollers(1650);
     changeAngle(-220);
     wait(280);
-    autonShortLaunch();
+    autonLaunch();
     wait(35);
     startChangeAngle(45);
     rotateRollers(2400);
-    turnNonGyro(6.3);
-    driveFor(1.99, 68);
+    turnNonGyro(3.4);
+    driveFor(1.89, 68);
     rotateRollers(1600);
     startChangeAngle(60);
     wait(50);
-    turnNonGyro(10);
+    turnNonGyro(3.4);
     wait(100);
-    driveFor(-.95, 66);
+    driveFor(-1.03, 67);
     wait(50);
-    gyroTurn(-83);
-    rotateRollers(400);
+    turnNonGyro(-75);
+    rotateRollers(2000);
     startChangeAngle(80);
     wait(30);
     rotateRollers(500);
@@ -354,25 +358,26 @@ void RedOutsideMiddle ( void ){
 
 void RedOutsideDescore ( void ){
     //2
-    driveFor(1.4, 30);
-    startChangeAngle(-180);
+    driveFor(1.5, 30);
+    startChangeAngle(-30);
     autonPuncherDraw();
+    startChangeAngle(-190);
     rotateRollers(800);
     wait(500);
     driveFor(-.34, 20);
     wait(500);
-    gyroTurn(-60.7);
+    gyroTurn(-57.9);
     autonLaunch();
     rotateRollers(2000);
-    startChangeAngle(-180);
+    startChangeAngle(-167);
     wait(2000);
-    autonShortLaunch();
+    autonLaunch();
     driveFor(-.9, 70);
-    wait(100);
-    turnNonGyro(88);
+    wait(300);
+    turnNonGyro(63);
     rotateRollers(-3000);
-    driveFor(0.8, 40);
-    driveFor(-.5, 40);
+    driveFor(0.9, 40);
+    driveFor(-0.5, 40);
 }
 
 
@@ -381,15 +386,15 @@ void BlueOutsideMiddle ( void ){
     driveFor(1.4, 30);
     startChangeAngle(-30);
     autonPuncherDraw();
-    startChangeAngle(-190);
+    startChangeAngle(-220);
     rotateRollers(800);
     wait(500);
     driveFor(-.34, 20);
     wait(500);
-    gyroTurn(83.1);
+    gyroTurn(82.1);
     autonLaunch();
     rotateRollers(2000);
-    startChangeAngle(-185);
+    startChangeAngle(-180);
     wait(2000);
     autonShortLaunch();
     driveFor(-.9, 70);
@@ -402,7 +407,7 @@ void BlueOutsideMiddle ( void ){
 
 void BlueOutsideDescore ( void ){
     //4
-    driveFor(1.4, 30);
+    driveFor(1.5, 30);
     startChangeAngle(-30);
     autonPuncherDraw();
     startChangeAngle(-190);
@@ -410,18 +415,18 @@ void BlueOutsideDescore ( void ){
     wait(500);
     driveFor(-.34, 20);
     wait(500);
-    gyroTurn(60.7);
+    gyroTurn(60.1);
     autonLaunch();
     rotateRollers(2000);
-    startChangeAngle(-185);
+    startChangeAngle(-167);
     wait(2000);
-    autonShortLaunch();
+    autonLaunch();
     driveFor(-.9, 70);
     wait(300);
-    turnNonGyro(-80);
+    turnNonGyro(-68);
     rotateRollers(-3000);
-    driveFor(1.2, 30);
-    driveFor(-0.5, 30);
+    driveFor(0.9, 40);
+    driveFor(-0.5, 40);
 }
 
 
@@ -433,10 +438,10 @@ int autonomous( void ) {
 
 
 void opDrive( controller::axis left, controller::axis right){
-    FrontRightMotor.spin(directionType::fwd, left.value() - 0.87 * right.value(), percentUnits::pct);
-    FrontLeftMotor.spin(directionType::fwd, left.value() + 0.87 * right.value(), percentUnits::pct);
-    BackRightMotor.spin(directionType::fwd, left.value() - 0.87 * right.value(), percentUnits::pct);
-    BackLeftMotor.spin(directionType::fwd, left.value() + 0.87 * right.value(), percentUnits::pct);
+    FrontRightMotor.spin(directionType::fwd, left.value() -  right.value(), percentUnits::pct);
+    FrontLeftMotor.spin(directionType::fwd, left.value() +  right.value(), percentUnits::pct);
+    BackRightMotor.spin(directionType::fwd, left.value() - right.value(), percentUnits::pct);
+    BackLeftMotor.spin(directionType::fwd, left.value() + right.value(), percentUnits::pct);
 }
 
 void launch(controller::button launchButton){
@@ -496,15 +501,19 @@ void doubleShot(controller::button R2) {
 }
 
 void settingHighFlag( void ) {
-    changeAngle(200);
+    changeAngle(400);
     settingShot = false;
+}
+
+void settingMidFlag ( void ) {
+    changeAngle(-110);
 }
 
 void backDoubleShot(controller::button left) {
     if (!performingAction && left.pressing()) {
         performingAction = true;
         autonShortLaunch();
-        thread setHighFlag = thread(settingHighFlag);
+        thread setMidFlag = thread(settingMidFlag);
         autonPuncherDraw();
         int i = 0;
         while (performingAction && i < 20) {
@@ -584,7 +593,7 @@ int main() {
     //         break;
     // }
     
-    Competition.autonomous ( RedInside );
+    Competition.autonomous ( BlueOutsideDescore );
     
     Brain.Screen.clearScreen();
     
